@@ -20,9 +20,15 @@ const courses = [
 // Resolvers
 const resolvers = {
   Query: {
-    getCourses: () => courses,
+    // ctx es un context, informacion compartida de todos los resolvers
+    // info, informacion de la consulta(avanzado)
+    getCourses: (_, { input }, ctx, info) => {
+      const result = courses.filter(
+        (course) => course.technology === input.technology
+      );
 
-    getTechnology: () => courses,
+      return result;
+    },
   },
 };
 
