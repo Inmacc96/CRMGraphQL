@@ -11,12 +11,19 @@ const typeDefs = gql`
     createdAt: String
   }
 
+  input UserInput {
+    name: String!
+    surname: String!
+    email: String!
+    password: String!
+  }
+
   type Query {
     getCourse: String
   }
 
   type Mutation {
-    newUser: String
+    newUser(input: UserInput): String
   }
 `;
 
