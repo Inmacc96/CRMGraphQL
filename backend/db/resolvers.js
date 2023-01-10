@@ -20,9 +20,10 @@ const courses = [
 // Resolvers
 const resolvers = {
   Query: {
-    // ctx es un context, informacion compartida de todos los resolvers
+    // ctx es un context, informacion compartida de todos los resolvers. Se puede guardar informacion como que el usuario está autenticado
     // info, informacion de la consulta(avanzado)
     getCourses: (_, { input }, ctx, info) => {
+      console.log(ctx);
       const result = courses.filter(
         (course) => course.technology === input.technology
       );

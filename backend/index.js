@@ -3,7 +3,16 @@ const typeDefs = require("./db/schema");
 const resolvers = require("./db/resolvers");
 
 // Servidor
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: () => {
+    const myContext = "Hola";
+    return {
+      myContext,
+    };
+  },
+});
 
 // Arrancar el servidor
 server.listen().then(({ url }) => {
