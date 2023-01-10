@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Inmacc96/CRMGraphQL#readme",
   "dependencies": {
     "apollo-server": "^3.11.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "mongoose": "^6.8.3"
   },
