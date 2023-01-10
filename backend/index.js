@@ -5,45 +5,48 @@ const { ApolloServer, gql } = require("apollo-server");
 const typeDefs = gql`
   type Course {
     title: String
+  }
+
+  type Technology {
     technology: String
   }
 
   type Query {
     getCourses: [Course]
+    getTechnology: [Technology]
   }
 `;
 
 const courses = [
   {
-      title: 'JavaScript Moderno Guía Definitiva Construye +10 Proyectos',
-      technology: 'JavaScript ES6',
+    title: "JavaScript Moderno Guía Definitiva Construye +10 Proyectos",
+    technology: "JavaScript ES6",
   },
   {
-      title: 'React – La Guía Completa: Hooks Context Redux MERN +15 Apps',
-      technology: 'React',
+    title: "React – La Guía Completa: Hooks Context Redux MERN +15 Apps",
+    technology: "React",
   },
   {
-      title: 'Node.js – Bootcamp Desarrollo Web inc. MVC y REST API’s',
-      technology: 'Node.js'
-  }, 
+    title: "Node.js – Bootcamp Desarrollo Web inc. MVC y REST API’s",
+    technology: "Node.js",
+  },
   {
-      title: 'ReactJS Avanzado – FullStack React GraphQL y Apollo',
-      technology: 'React'
-  }
+    title: "ReactJS Avanzado – FullStack React GraphQL y Apollo",
+    technology: "React",
+  },
 ];
 
 // Resolvers
 const resolvers = {
   Query: {
-    getCourses: () => {
-      return courses
-    },
+    getCourses: () => courses,
+    
+    getTechnology: () => courses
   },
 };
 
-
 // Servidor
-const server = new ApolloServer({typeDefs, resolvers});
+const server = new ApolloServer({ typeDefs, resolvers });
 
 // Arrancar el servidor
 server.listen().then(({ url }) => {
