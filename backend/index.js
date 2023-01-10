@@ -6,12 +6,6 @@ const resolvers = require("./db/resolvers");
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: () => {
-    const myContext = "Hola";
-    return {
-      myContext,
-    };
-  },
 });
 
 // Arrancar el servidor
