@@ -1,7 +1,10 @@
 // Resolvers
 const resolvers = {
   Query: {
-    
+    getCourse: () => {},
+  },
+  Mutation: {
+    newUser: () => "Creando nuevo usuario",
   },
 };
 
