@@ -66,6 +66,17 @@ const resolvers = {
         token: createToken(existUser, process.env.JWT_SECRET, "24h"),
       };
     },
+    newProduct: async (_, { input }) => {
+      try {
+        const newProduct = new Product(input);
+        // Almacenar en la bd
+        const product = await newProduct.save();
+
+        return product;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
 };
 
