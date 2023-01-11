@@ -95,6 +95,22 @@ const resolvers = {
         console.log(err);
       }
     },
+    updateProduct: async (_, { id, input }) => {
+      // Comrpobar que el producto existe
+      let product = await Product.findById(id);
+
+      if (!product) {
+        throw new Error("Product not found");
+      }
+
+      // Guardar el nuevo valor en la base de datos
+      // new: true para que me retorne el nuevo valor de product
+      product = await Product.findOneAndUpdate({ _id: id }, input, {
+        new: true,
+      });
+
+      return product;
+    },
   },
 };
 
