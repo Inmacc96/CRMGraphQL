@@ -45,6 +45,14 @@ const resolvers = {
         console.log(err);
       }
     },
+    getCustomersSeller: async (_, {}, { user }) => {
+      try {
+        const customers = await Customer.find({ seller: user.id.toString() });
+        return customers;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   Mutation: {
     newUser: async (_, { input }) => {
