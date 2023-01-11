@@ -30,6 +30,19 @@ const resolvers = {
         console.log(err);
       }
     },
+    authUser: async (_, { input }) => {
+      const { email, password } = input;
+
+      // Comprobar que el usuario existe
+      const existUser = await User.findOne({ email });
+      if (!existUser) {
+        throw new Error("Already registered user");
+      }
+
+      // Comprobar que el password es correcto
+
+      // Crear el token
+    },
   },
 };
 

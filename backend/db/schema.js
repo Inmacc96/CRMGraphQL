@@ -11,9 +11,18 @@ const typeDefs = gql`
     createdAt: String
   }
 
+  type Token {
+    token: String
+  }
+
   input UserInput {
     name: String!
     surname: String!
+    email: String!
+    password: String!
+  }
+
+  input AuthInput {
     email: String!
     password: String!
   }
@@ -24,6 +33,7 @@ const typeDefs = gql`
 
   type Mutation {
     newUser(input: UserInput): User
+    authUser(input: AuthInput): Token
   }
 `;
 
