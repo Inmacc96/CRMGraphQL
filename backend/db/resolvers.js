@@ -195,6 +195,22 @@ const resolvers = {
       });
       return customer;
     },
+    deleteCustomer: async (_, { id }, { user }) => {
+      // Comprobar que el cliente existe
+      let customer = await Customer.findById(id);
+      if (!customer) {
+        throw new Error("Customer not found");
+      }
+
+      // Comprobar que el vendedor es quien lo borra
+      if (user.id !== customer.seller.toString()) {
+        throw new Error("You do not have permission to delete this customer");
+      }
+
+      // Borrar el cliente de la base de datos
+      await Customer.findOneAndDelete({ _id: id });
+      return "Deleted customer";
+    },
   },
 };
 
