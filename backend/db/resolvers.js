@@ -111,6 +111,18 @@ const resolvers = {
 
       return product;
     },
+    deleteProduct: async (_, { id }) => {
+      // Comrpobar que el producto existe
+      let product = await Product.findById(id);
+
+      if (!product) {
+        throw new Error("Product not found");
+      }
+
+      // Eliminar
+      await Product.findOneAndDelete({ _id: id });
+      return "Deleted product"
+    },
   },
 };
 
