@@ -34,6 +34,21 @@ const typeDefs = gql`
     seller: ID
   }
 
+  type Order {
+    id: ID
+    order: [OrderProduct]
+    total: Float
+    customer: ID
+    seller: ID
+    state: StateOrder
+    createdAt: String
+  }
+
+  type OrderProduct {
+    id: ID
+    quantity: Int
+  }
+
   input UserInput {
     name: String!
     surname: String!
@@ -58,6 +73,24 @@ const typeDefs = gql`
     company: String!
     email: String!
     phone: String
+  }
+
+  input OrderProductInput {
+    id: ID
+    quantity: Int
+  }
+
+  input OrderInput {
+    order: [OrderProductInput]
+    total: Float!
+    customer: ID!
+    state: StateOrder
+  }
+
+  enum StateOrder {
+    PENDING
+    CANCELLED
+    COMPLETED
   }
 
   type Query {
@@ -86,8 +119,11 @@ const typeDefs = gql`
 
     # Customers
     newCustomer(input: CustomerInput): Customer
-    updateCustomer(id:ID!, input: CustomerInput): Customer
-    deleteCustomer(id:ID!): String
+    updateCustomer(id: ID!, input: CustomerInput): Customer
+    deleteCustomer(id: ID!): String
+
+    # Orders
+    newOrder(input: OrderInput): Order
   }
 `;
 
