@@ -178,6 +178,23 @@ const resolvers = {
         console.log(err);
       }
     },
+    updateCustomer: async (_, { id, input }, { user }) => {
+      // Comprobar que el cliente existe
+      let customer = await Customer.findById(id);
+      if (!customer) {
+        throw new Error("Customer not found");
+      }
+      // Comprobar que el vendedor es quien lo edita
+      if (user.id !== customer.seller.toString()) {
+        throw new Error("You do not have permission to edit this customer");
+      }
+
+      // Guardar el nuevo valor en la base de datos
+      customer = await Customer.findOneAndUpdate({ _id: id }, input, {
+        new: true,
+      });
+      return customer;
+    },
   },
 };
 
