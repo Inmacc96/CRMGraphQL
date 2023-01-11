@@ -53,6 +53,21 @@ const resolvers = {
         console.log(err);
       }
     },
+    getCustomer: async (_, { id }, { user }) => {
+      // Comprobar que existe el cliente
+      const customer = await Customer.findById({ _id: id });
+
+      if (!customer) {
+        throw new Error("Customer not found");
+      }
+
+      // Quien lo creó puede verlo
+      if (user.id !== customer.seller.toString()) {
+        throw new Error("You do not have permission to get this customer");
+      }
+
+      return customer;
+    },
   },
   Mutation: {
     newUser: async (_, { input }) => {
