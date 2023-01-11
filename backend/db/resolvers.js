@@ -124,7 +124,8 @@ const resolvers = {
       await Product.findOneAndDelete({ _id: id });
       return "Deleted product";
     },
-    newCustomer: async (_, { input }) => {
+    newCustomer: async (_, { input }, { user }) => {
+      console.log(user);
       const { email } = input;
       // Verificar si el cliente ya está registrado
       const existCustomer = await Customer.findOne({ email });
@@ -136,7 +137,7 @@ const resolvers = {
       const newCustomer = new Customer(input);
 
       // Asignar el vendedor
-      newCustomer.seller = "63bd4d97741fec78946e7ad2";
+      newCustomer.seller = user.id;
 
       // Guardarlo en la base de datos
       try {
