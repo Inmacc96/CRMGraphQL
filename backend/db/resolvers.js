@@ -18,6 +18,14 @@ const resolvers = {
 
       return userId;
     },
+    getProducts: async () => {
+      try {
+        const products = await Product.find({});
+        return products;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   Mutation: {
     newUser: async (_, { input }) => {
