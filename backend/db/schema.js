@@ -23,6 +23,17 @@ const typeDefs = gql`
     createdAt: String
   }
 
+  type Customer {
+    id: ID
+    name: String
+    surname: String
+    company: String
+    email: String
+    phone: String
+    createdAt: String
+    seller: ID
+  }
+
   input UserInput {
     name: String!
     surname: String!
@@ -39,6 +50,14 @@ const typeDefs = gql`
     name: String!
     stock: Int!
     price: Float!
+  }
+
+  input CustomerInput {
+    name: String!
+    surname: String!
+    company: String!
+    email: String!
+    phone: String
   }
 
   type Query {
@@ -59,6 +78,9 @@ const typeDefs = gql`
     newProduct(input: ProductInput): Product
     updateProduct(id: ID!, input: ProductInput): Product
     deleteProduct(id: ID!): String
+
+    # Customers
+    newCustomer(input: CustomerInput): Customer
   }
 `;
 
