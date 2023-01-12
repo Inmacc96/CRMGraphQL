@@ -125,12 +125,40 @@ const resolvers = {
             as: "customer",
           },
         },
+        { $limit: 10 },
         {
           $sort: { total: -1 },
         },
       ]);
 
       return customers;
+    },
+    getBestSellers: async () => {
+      const sellers = await Order.aggregate([
+        {
+          $match: { state: "COMPLETED" },
+        },
+        {
+          $group: {
+            _id: "$seller",
+            total: { $sum: "$total" },
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "_id",
+            foreignField: "_id",
+            as: "seller",
+          },
+        },
+        {
+          $limit: 3,
+        },
+        { $sort: { total: -1 } },
+      ]);
+
+      return sellers;
     },
   },
   Mutation: {
