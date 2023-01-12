@@ -69,6 +69,14 @@ const resolvers = {
 
       return customer;
     },
+    getOrders: async () => {
+      try {
+        const orders = await Order.find({});
+        return orders
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   Mutation: {
     newUser: async (_, { input }) => {
