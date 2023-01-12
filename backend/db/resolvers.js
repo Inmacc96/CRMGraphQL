@@ -107,6 +107,31 @@ const resolvers = {
         console.log(err);
       }
     },
+    getBestCustomers: async () => {
+      const customers = await Order.aggregate([
+        { $match: { state: "COMPLETED" } }, // filtra los pedidos con estado completado
+        {
+          $group: {
+            _id: "$customer",
+            total: { $sum: "$total" },
+          },
+        },
+        {
+          // lookup es un join de sql
+          $lookup: {
+            from: "customers",
+            localField: "_id",
+            foreignField: "_id",
+            as: "customer",
+          },
+        },
+        {
+          $sort: { total: -1 },
+        },
+      ]);
+
+      return customers;
+    },
   },
   Mutation: {
     newUser: async (_, { input }) => {
