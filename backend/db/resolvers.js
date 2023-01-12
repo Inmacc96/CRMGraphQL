@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Product = require("../models/Product");
 const Customer = require("../models/Customer");
+const Order = require("../models/Order");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: ".env" });
@@ -156,7 +157,6 @@ const resolvers = {
       return "Deleted product";
     },
     newCustomer: async (_, { input }, { user }) => {
-      console.log(user);
       const { email } = input;
       // Verificar si el cliente ya está registrado
       const existCustomer = await Customer.findOne({ email });
@@ -210,6 +210,46 @@ const resolvers = {
       // Borrar el cliente de la base de datos
       await Customer.findOneAndDelete({ _id: id });
       return "Deleted customer";
+    },
+    newOrder: async (_, { input }, { user }) => {
+      const { customer: customerID, order } = input;
+      // Verificar si el cliente existe
+      const customer = await Customer.findById(customerID);
+
+      if (!customer) {
+        throw new Error("Customer not found");
+      }
+
+      // Verificar si el cliente es del vendedor
+      if (customer.seller.toString() !== user.id) {
+        throw new Error("You do not have permission to create this order");
+      }
+
+      // Comprobar que el stock esté disponible
+      for await (const item of order) {
+        const { id } = item;
+
+        const product = await Product.findById(id);
+
+        if (item.quantity > product.stock) {
+          throw new Error(
+            `The ${product.name} item exceeds the quantity available`
+          );
+        } else {
+          // Restar la cantidad a lo disponible
+          product.stock = product.stock - item.quantity;
+          await product.save();
+        }
+      }
+
+      // Crear un nuevo pedido
+      const newOrder = new Order(input);
+
+      // Asignarle un vendedor
+      newOrder.seller = user.id;
+
+      // Guardarlo en la base de datos
+      return await newOrder.save();
     },
   },
 };
