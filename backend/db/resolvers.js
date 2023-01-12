@@ -72,7 +72,15 @@ const resolvers = {
     getOrders: async () => {
       try {
         const orders = await Order.find({});
-        return orders
+        return orders;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    getOrdersSeller: async (_, {}, { user }) => {
+      try {
+        const orders = await Order.find({seller: user.id})
+        return orders;
       } catch (err) {
         console.log(err);
       }
