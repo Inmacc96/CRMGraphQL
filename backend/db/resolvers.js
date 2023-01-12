@@ -79,11 +79,25 @@ const resolvers = {
     },
     getOrdersSeller: async (_, {}, { user }) => {
       try {
-        const orders = await Order.find({seller: user.id})
+        const orders = await Order.find({ seller: user.id });
         return orders;
       } catch (err) {
         console.log(err);
       }
+    },
+    getOrder: async (_, { id }, { user }) => {
+      // Comprobar que el pedido exista
+      const order = await Order.findById(id);
+      if (!order) {
+        throw new Error("Order not found");
+      }
+
+      // Comprobar que el pedido es creado por el usuario autenticado
+      if (order.seller.toString() !== user.id) {
+        throw new Error("You do not have permission to get this order");
+      }
+
+      return order;
     },
   },
   Mutation: {
