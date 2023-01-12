@@ -99,6 +99,14 @@ const resolvers = {
 
       return order;
     },
+    getOrderState: async (_, { state }, { user }) => {
+      try {
+        const orders = await Order.find({ state, seller: user.id });
+        return orders;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   Mutation: {
     newUser: async (_, { input }) => {
