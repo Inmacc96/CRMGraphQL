@@ -324,6 +324,22 @@ const resolvers = {
       // Guardar el pedido
       return await Order.findByIdAndUpdate({ _id: id }, input, { new: true });
     },
+    deleteOrder: async (_, { id }, { user }) => {
+      // Comprobar que el pedido existe
+      const order = await Order.findById(id);
+      if (!order) {
+        throw new Error("Order not found");
+      }
+
+      // Comprobar que el vendedor es quien lo borra
+      if (user.id !== order.seller.toString()) {
+        throw new Error("You do not have permission to delete this order");
+      }
+
+      // Borrar el cliente de la base de datos
+      await Order.findOneAndDelete({ _id: id });
+      return "Deleted order";
+    },
   },
 };
 
