@@ -281,6 +281,49 @@ const resolvers = {
       // Guardarlo en la base de datos
       return await newOrder.save();
     },
+    updateOrder: async (_, { id, input }, { user }) => {
+      const { customer: customerID, order } = input;
+      // Si el pedido existe
+      const existOrder = await Order.findById(id);
+      if (!existOrder) {
+        throw new Error("Order not found");
+      }
+
+      //Si el cliente existe
+      const customer = await Customer.findById(customerID);
+      if (!customer) {
+        throw new Error("Customer not found");
+      }
+
+      // Si el cliente y el pedido pertenece al vendedor
+      if (
+        existOrder.seller.toString() !== user.id ||
+        customer.seller.toString() !== user.id
+      ) {
+        throw new Error("You do not have permission to edit this order");
+      }
+
+      // Revisar el stock
+      if (order) {
+        for await (const item of order) {
+          const { id } = item;
+          const product = await Product.find(id);
+
+          if (item.quantity > product.stock) {
+            throw new Error(
+              `The ${product.name} item exceeds the quantity available`
+            );
+          } else {
+            // Restar la cantidad a lo disponible
+            product.stock = product.stock - item.quantity;
+            await product.save();
+          }
+        }
+      }
+
+      // Guardar el pedido
+      return await Order.findByIdAndUpdate({ _id: id }, input, { new: true });
+    },
   },
 };
 
