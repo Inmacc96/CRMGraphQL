@@ -160,6 +160,17 @@ const resolvers = {
 
       return sellers;
     },
+    searchProduct: async (_, { text }) => {
+      try {
+        const products = await Product.find({ $text: { $search: text } }).limit(
+          10
+        );
+
+        return products;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   Mutation: {
     newUser: async (_, { input }) => {
