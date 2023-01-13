@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Sidebar from "./Sidebar";
 
 const Layout = ({ children }) => {
   return (
@@ -6,8 +7,11 @@ const Layout = ({ children }) => {
       <Head>
         <title>CRM - Customer Management</title>
       </Head>
-      <h1>Desde Layout</h1>
-      {children}
+
+      <div className="bg-gray-200 min-h-screen sm:flex">
+        <Sidebar />
+        {children}
+      </div>
     </>
   );
 };
