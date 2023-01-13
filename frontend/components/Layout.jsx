@@ -14,7 +14,7 @@ const Layout = ({ children }) => {
 
       {["/login", "/signup"].includes(router.pathname) ? (
         <div className="bg-gray-800 min-h-screen flex flex-col justify-center">
-          {children}
+          <div>{children}</div>
         </div>
       ) : (
         <div className="bg-gray-200 min-h-screen sm:flex">
