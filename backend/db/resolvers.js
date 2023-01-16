@@ -202,7 +202,7 @@ const resolvers = {
       // Comprobar que el usuario existe
       const existUser = await User.findOne({ email });
       if (!existUser) {
-        throw new Error("Already registered user");
+        throw new Error("User doesn't exist");
       }
 
       // Comprobar que el password es correcto
