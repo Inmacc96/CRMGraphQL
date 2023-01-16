@@ -1,8 +1,31 @@
+import { useState } from "react";
+import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useMutation, gql } from "@apollo/client";
+
+const NEW_USER = gql`
+  mutation newUser($input: UserInput) {
+    newUser(input: $input) {
+      id
+      name
+      surname
+      email
+    }
+  }
+`;
 
 const Signup = () => {
+  // State para el mensaje
+  const [msg, setMsg] = useState(null);
+
+  // Mutation para crear nuevos usuarios
+  const [newUser] = useMutation(NEW_USER);
+
+  // Routing
+  const router = useRouter();
+
   // Validación de formulario
   const formik = useFormik({
     initialValues: {
@@ -21,12 +44,42 @@ const Signup = () => {
         .required("Password is required")
         .min(6, "The password must be at least 6 characters"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const { data } = await newUser({
+          variables: {
+            input: values,
+          },
+        });
+        // En data vas a obtener lo que has definido en el mutation que quieres obtener
+        // console.log(data);
+
+        // Usuario creado correctamente
+        setMsg(`The user ${data.newUser.name} was successfully created`);
+
+        setTimeout(() => {
+          setMsg(null);
+          // Redirigir el usuario para iniciar sesion
+          router.push("/login");
+        }, 3000);
+      } catch (err) {
+        console.log(err.message);
+        setMsg(err.message.replace("GraphQL erros: ", ""));
+
+        setTimeout(() => {
+          setMsg(null);
+        }, 3000);
+      }
     },
   });
   return (
     <Layout>
+      {msg && (
+        <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
+          <p>{msg}</p>
+        </div>
+      )}
+
       <h1 className="text-center text-2xl text-white font-light">
         Create New Account
       </h1>
