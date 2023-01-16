@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -12,6 +13,9 @@ const AUTH_USER = gql`
 `;
 
 const Login = () => {
+  // State para el mensaje
+  const [msg, setMsg] = useState(null);
+
   // Mutation para autenticar el usuario
   const [authUser] = useMutation(AUTH_USER);
 
@@ -36,13 +40,24 @@ const Login = () => {
         });
         console.log(data);
       } catch (err) {
-        console.log(err);
+        console.log(err.message);
+        setMsg(err.message.replace("GraphQL erros: ", ""));
+
+        setTimeout(() => {
+          setMsg(null);
+        }, 3000);
       }
     },
   });
   return (
     <Layout>
       <h1 className="text-center text-2xl text-white font-light">Login</h1>
+
+      {msg && (
+        <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
+          <p>{msg}</p>
+        </div>
+      )}
 
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-sm">
