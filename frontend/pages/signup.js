@@ -6,11 +6,21 @@ const Signup = () => {
   // Validación de formulario
   const formik = useFormik({
     initialValues: {
-      name: "hola",
+      name: "",
       surname: "",
       email: "",
       password: "",
     },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Name is required"),
+      surname: Yup.string().required("Surname is required"),
+      email: Yup.string()
+        .email("Email is invalid")
+        .required("Email is required"),
+      password: Yup.string()
+        .required("Password is required")
+        .min(6, "The password must be at least 6 characters"),
+    }),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -40,9 +50,18 @@ const Signup = () => {
                 placeholder="User Name"
                 value={formik.values.name}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
+
+            {formik.touched.name && formik.errors.name && (
+              <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                <p className="font-bold">Error</p>
+                <p>{formik.errors.name}</p>
+              </div>
+            )}
+
             <div className="mb-4">
               <label
                 htmlFor="surname"
@@ -59,6 +78,14 @@ const Signup = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
+
+            {formik.touched.surname && formik.errors.surname && (
+              <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                <p className="font-bold">Error</p>
+                <p>{formik.errors.surname}</p>
+              </div>
+            )}
+
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -75,6 +102,14 @@ const Signup = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
+
+            {formik.touched.email && formik.errors.email && (
+              <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                <p className="font-bold">Error</p>
+                <p>{formik.errors.email}</p>
+              </div>
+            )}
+
             <div className="mb-4">
               <label
                 htmlFor="password"
@@ -91,6 +126,13 @@ const Signup = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
+
+            {formik.touched.password && formik.errors.password && (
+              <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                <p className="font-bold">Error</p>
+                <p>{formik.errors.password}</p>
+              </div>
+            )}
 
             <input
               type="submit"
