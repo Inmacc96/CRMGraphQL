@@ -19,7 +19,7 @@ const Signup = () => {
                 id="name"
                 type="text"
                 placeholder="User Name"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
             <div className="mb-4">
@@ -33,7 +33,7 @@ const Signup = () => {
                 id="surname"
                 type="text"
                 placeholder="User Surname"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
             <div className="mb-4">
@@ -47,7 +47,7 @@ const Signup = () => {
                 id="email"
                 type="email"
                 placeholder="User Email"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
             <div className="mb-4">
@@ -61,7 +61,7 @@ const Signup = () => {
                 id="password"
                 type="password"
                 placeholder="User Password"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
 
