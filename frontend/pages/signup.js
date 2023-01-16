@@ -1,13 +1,32 @@
 import Layout from "../components/Layout";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Signup = () => {
+  // Validación de formulario
+  const formik = useFormik({
+    initialValues: {
+      name: "hola",
+      surname: "",
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
   return (
     <Layout>
-      <h1 className="text-center text-2xl text-white font-light">Create New Account</h1>
+      <h1 className="text-center text-2xl text-white font-light">
+        Create New Account
+      </h1>
 
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-sm">
-          <form className="bg-white rounded shadow-md px-8 pt-6 pb-8 mb-4">
+          <form
+            className="bg-white rounded shadow-md px-8 pt-6 pb-8 mb-4"
+            onSubmit={formik.handleSubmit}
+          >
             <div className="mb-4">
               <label
                 htmlFor="name"
@@ -19,6 +38,8 @@ const Signup = () => {
                 id="name"
                 type="text"
                 placeholder="User Name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
@@ -33,6 +54,8 @@ const Signup = () => {
                 id="surname"
                 type="text"
                 placeholder="User Surname"
+                value={formik.values.surname}
+                onChange={formik.handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
@@ -47,6 +70,8 @@ const Signup = () => {
                 id="email"
                 type="email"
                 placeholder="User Email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
@@ -61,6 +86,8 @@ const Signup = () => {
                 id="password"
                 type="password"
                 placeholder="User Password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
