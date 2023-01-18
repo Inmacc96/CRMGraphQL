@@ -1,5 +1,7 @@
 import Layout from "../components/Layout";
 import { useQuery, gql } from "@apollo/client";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const GET_CUSTOMERS_USER = gql`
   query getCustomersSeller {
@@ -14,13 +16,22 @@ const GET_CUSTOMERS_USER = gql`
 `;
 
 export default function Home() {
+  //router
+  const router = useRouter();
+
   // Consulta de Apollo
   const { data, loading, error } = useQuery(GET_CUSTOMERS_USER);
 
+  if (loading) return <p>Loading...</p>;
+
+  // Proteger la ruta
+  if (!data.getCustomersSeller || error) {
+    router.push("/login");
+    return <p>Redirecting...</p>;
+  }
+
   return (
     <Layout>
-      {loading && <p>Loading...</p>}
-
       <h1 className="text-2xl text-gray-800 font-light">Customers</h1>
 
       <table className="table-auto shadow-md mt-10 w-full">
