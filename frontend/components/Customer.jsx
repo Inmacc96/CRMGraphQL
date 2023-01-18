@@ -1,9 +1,24 @@
+import Swal from "sweetalert2";
+
 const Customer = ({ customer }) => {
   const { id, name, surname, company, email } = customer;
 
   // Elimina un cliente
   const confirmDeleteCustomer = (id) => {
-    console.log(id);
+    Swal.fire({
+      title: "Do you want to remove this customer?",
+      text: "This action cannot be reversed!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("eliminando", id);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
   };
 
   return (
