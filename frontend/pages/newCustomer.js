@@ -1,8 +1,57 @@
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useMutation, gql } from "@apollo/client";
+import { useRouter } from "next/router";
+
+const NEW_CUSTOMER = gql`
+  mutation newCustomer($input: CustomerInput) {
+    newCustomer(input: $input) {
+      id
+      name
+      surname
+      company
+      email
+      phone
+    }
+  }
+`;
+
+const GET_CUSTOMERS_USER = gql`
+  query getCustomersSeller {
+    getCustomersSeller {
+      id
+      name
+      surname
+      company
+      email
+    }
+  }
+`;
 
 const NewCustomer = () => {
+  // router
+  const router = useRouter();
+
+  // Mutation para crear nuevos clientes
+  const [newCustomer] = useMutation(NEW_CUSTOMER, {
+    // Actualizar el cache con la informacion que se va a obtener de nuevoCliente
+    update(cache, { data: { newCustomer } }) {
+      // Obtener el objeto de cache que deseamos actualizar
+      const { getCustomersSeller } = cache.readQuery({
+        query: GET_CUSTOMERS_USER,
+      });
+
+      // Reescribimos el cahce(el cache nunca se debe modificar)
+      cache.writeQuery({
+        query: GET_CUSTOMERS_USER,
+        data: {
+          getCustomersSeller: [...getCustomersSeller, newCustomer],
+        },
+      });
+    },
+  });
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -19,8 +68,18 @@ const NewCustomer = () => {
         .email("Email is invalid")
         .required("The customer's email is required"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const { data } = await newCustomer({
+          variables: {
+            input: values,
+          },
+        });
+        // Redireccionar a clientes
+        router.push("/");
+      } catch (err) {
+        console.log(err);
+      }
     },
   });
 
