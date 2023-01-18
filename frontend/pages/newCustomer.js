@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -32,6 +33,9 @@ const GET_CUSTOMERS_USER = gql`
 const NewCustomer = () => {
   // router
   const router = useRouter();
+
+  // Mensaje de alerta
+  const [msg, setMsg] = useState(null);
 
   // Mutation para crear nuevos clientes
   const [newCustomer] = useMutation(NEW_CUSTOMER, {
@@ -78,7 +82,12 @@ const NewCustomer = () => {
         // Redireccionar a clientes
         router.push("/");
       } catch (err) {
-        console.log(err);
+        console.log(err.message);
+        setMsg(err.message.replace("GraphQL error: ", ""));
+
+        setTimeout(() => {
+          setMsg(null);
+        }, 3000);
       }
     },
   });
@@ -86,6 +95,12 @@ const NewCustomer = () => {
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800 font-light"> New Customer</h1>
+
+      {msg && (
+        <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
+          <p>{msg}</p>
+        </div>
+      )}
 
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-lg">
