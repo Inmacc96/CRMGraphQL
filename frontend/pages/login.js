@@ -55,7 +55,7 @@ const Login = () => {
         }, 2000);
       } catch (err) {
         console.log(err.message);
-        setMsg(err.message.replace("GraphQL erros: ", ""));
+        setMsg(err.message.replace("GraphQL error: ", ""));
 
         setTimeout(() => {
           setMsg(null);
