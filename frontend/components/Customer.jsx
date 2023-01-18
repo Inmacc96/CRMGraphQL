@@ -1,6 +1,16 @@
 import Swal from "sweetalert2";
+import { useMutation, gql } from "@apollo/client";
+
+const DELETE_CUSTOMER = gql`
+  mutation deleteCustomer($id: ID!) {
+    deleteCustomer(id: $id)
+  }
+`;
 
 const Customer = ({ customer }) => {
+  // Mutation pata eliminar cliente
+  const [deleteCustomer] = useMutation(DELETE_CUSTOMER);
+
   const { id, name, surname, company, email } = customer;
 
   // Elimina un cliente
@@ -13,10 +23,21 @@ const Customer = ({ customer }) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log("eliminando", id);
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        try {
+          // Eliminar por ID
+          const { data } = await deleteCustomer({
+            variables: {
+              id,
+            },
+          });
+
+          // Mostrar una alerta
+          Swal.fire("Deleted!", data.deleteCustomer, "success");
+        } catch (err) {
+          console.log(err);
+        }
       }
     });
   };
