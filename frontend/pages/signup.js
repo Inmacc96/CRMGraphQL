@@ -128,6 +128,7 @@ const Signup = () => {
                 placeholder="User Surname"
                 value={formik.values.surname}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
@@ -152,6 +153,7 @@ const Signup = () => {
                 placeholder="User Email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
@@ -176,6 +178,7 @@ const Signup = () => {
                 placeholder="User Password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
               />
             </div>
