@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import { useQuery, gql } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import Link from "next/link";
 
 const GET_CUSTOMERS_USER = gql`
   query getCustomersSeller {
@@ -33,6 +33,12 @@ export default function Home() {
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800 font-light">Customers</h1>
+      <Link
+        href="/newCustomer"
+        className="bg-blue-800 py-2 px-5 my-3 inline-block text-white rounded text-sm hover:bg-gray-800 uppercase font-bold"
+      >
+        New Customer
+      </Link>
 
       <table className="table-auto shadow-md mt-10 w-full">
         <thead className="bg-gray-800">
