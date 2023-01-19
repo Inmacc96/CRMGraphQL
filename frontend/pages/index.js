@@ -48,6 +48,7 @@ export default function Home() {
             <th className="w-1/5 py-2">Company</th>
             <th className="w-1/5 py-2">Email</th>
             <th className="w-1/5 py-2">Delete</th>
+            <th className="w-1/5 py-2">Edit</th>
           </tr>
         </thead>
 
