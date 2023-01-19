@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useQuery, gql } from "@apollo/client";
 import Layout from "../../components/Layout";
 import { Formik } from "formik";
+import * as Yup from "yup";
 
 const GET_CUSTOMER = gql`
   query getCustomer($id: ID!) {
@@ -29,6 +30,16 @@ const EditCustomer = () => {
     },
   });
 
+  // Schema de validacion
+  const schemaValidation = Yup.object({
+    name: Yup.string().required("The customer's name is required"),
+    surname: Yup.string().required("The customer's surname is required"),
+    company: Yup.string().required("The customer's company is required"),
+    email: Yup.string()
+      .email("Email is invalid")
+      .required("The customer's email is required"),
+  });
+
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -37,7 +48,7 @@ const EditCustomer = () => {
 
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-lg">
-          <Formik>
+          <Formik validationSchema={schemaValidation}>
             {(props) => {
               console.log(props);
 
@@ -63,6 +74,13 @@ const EditCustomer = () => {
                     />
                   </div>
 
+                  {props.touched.name && props.errors.name && (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.name}</p>
+                    </div>
+                  )}
+
                   <div className="mb-4">
                     <label
                       htmlFor="surname"
@@ -79,6 +97,13 @@ const EditCustomer = () => {
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
                     />
                   </div>
+
+                  {props.touched.surname && props.errors.surname && (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.surname}</p>
+                    </div>
+                  )}
 
                   <div className="mb-4">
                     <label
@@ -97,6 +122,13 @@ const EditCustomer = () => {
                     />
                   </div>
 
+                  {props.touched.company && props.errors.company && (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.company}</p>
+                    </div>
+                  )}
+
                   <div className="mb-4">
                     <label
                       htmlFor="email"
@@ -113,6 +145,13 @@ const EditCustomer = () => {
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
                     />
                   </div>
+
+                  {props.touched.email && props.errors.email && (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.email}</p>
+                    </div>
+                  )}
 
                   <div className="mb-4">
                     <label
