@@ -42,16 +42,23 @@ const EditCustomer = () => {
 
   if (loading) return <p>Loading...</p>;
 
+  const { getCustomer } = data;
+
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800 font-light"> Edit Customer</h1>
 
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-lg">
-          <Formik validationSchema={schemaValidation}>
+          <Formik
+            validationSchema={schemaValidation}
+            enableReinitialize
+            initialValues={getCustomer}
+            onSubmit={(values) => {
+              console.log(values);
+            }}
+          >
             {(props) => {
-              console.log(props);
-
               return (
                 <form
                   className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
@@ -70,6 +77,7 @@ const EditCustomer = () => {
                       placeholder="Customer Name"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
+                      value={props.values.name}
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
                     />
                   </div>
@@ -94,6 +102,7 @@ const EditCustomer = () => {
                       placeholder="Customer Surname"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
+                      value={props.values.surname}
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
                     />
                   </div>
@@ -118,6 +127,7 @@ const EditCustomer = () => {
                       placeholder="Customer Company"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
+                      value={props.values.company}
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
                     />
                   </div>
@@ -142,6 +152,7 @@ const EditCustomer = () => {
                       placeholder="Customer Email"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
+                      value={props.values.email}
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
                     />
                   </div>
@@ -166,6 +177,7 @@ const EditCustomer = () => {
                       placeholder="Customer Phone"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
+                      value={props.values.phone}
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-gray-800"
                     />
                   </div>
