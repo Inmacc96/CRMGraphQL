@@ -16,12 +16,38 @@ const NEW_PRODUCT = gql`
   }
 `;
 
+const GET_PRODUCTS = gql`
+  query getProducts {
+    getProducts {
+      id
+      name
+      price
+      stock
+    }
+  }
+`;
+
 const NewProduct = () => {
   // Router
   const router = useRouter();
 
   // Mutation para guardar el nuevo producto en la base de datos
-  const [newProduct] = useMutation(NEW_PRODUCT);
+  const [newProduct] = useMutation(NEW_PRODUCT, {
+    update(cache, { data: { newProduct } }) {
+      // Obtener el objeto de cache
+      const { getProducts } = cache.readQuery({
+        query: GET_PRODUCTS,
+      });
+
+      // Reescribir la cache
+      cache.writeQuery({
+        query: GET_PRODUCTS,
+        data: {
+          getProducts: [...getProducts, newProduct],
+        },
+      });
+    },
+  });
 
   // Formulario para nuevos productos
   const formik = useFormik({
