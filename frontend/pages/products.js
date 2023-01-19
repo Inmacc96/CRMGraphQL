@@ -16,7 +16,6 @@ const GET_PRODUCTS = gql`
 const Products = () => {
   // Obtener los productos
   const { data, loading, error } = useQuery(GET_PRODUCTS);
-  console.log(data);
 
   if (loading) return <p>Loading...</p>;
   return (
