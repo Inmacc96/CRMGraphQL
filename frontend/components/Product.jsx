@@ -1,5 +1,74 @@
+import { useMutation, gql } from "@apollo/client";
+import Swal from "sweetalert2";
+
+const DELETE_PRODUCT = gql`
+  mutation deleteProduct($id: ID!) {
+    deleteProduct(id: $id)
+  }
+`;
+
+const GET_PRODUCTS = gql`
+  query getProducts {
+    getProducts {
+      id
+      name
+      price
+      stock
+    }
+  }
+`;
+
 const Product = ({ product }) => {
   const { name, stock, price, id } = product;
+
+  // Mutation para eliminar un producto
+  const [deleteProduct] = useMutation(DELETE_PRODUCT, {
+    update(cache) {
+      // Obtener el objeto de la cache que deseamos actualizar
+      const { getProducts } = cache.readQuery({
+        query: GET_PRODUCTS,
+      });
+
+      // Reescribimos la cache
+      cache.writeQuery({
+        query: GET_PRODUCTS,
+        data: {
+          getProducts: getProducts.filter((product) => product.id !== id),
+        },
+      });
+
+      // Eliminamos individualmente
+      cache.evict({ id: cache.identify(product) });
+    },
+  });
+
+  const confirmDeleteProduct = () => {
+    Swal.fire({
+      title: "Do you want to remove this product?",
+      text: "This action cannot be reversed!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Eliminar por ID
+          const { data } = await deleteProduct({
+            variables: {
+              id,
+            },
+          });
+
+          // Mostrar una alerta
+          Swal.fire("Deleted!", data.deleteProduct, "success");
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
+  };
   return (
     <tr>
       <td className="border px-4 py-2">{name}</td>
@@ -9,6 +78,7 @@ const Product = ({ product }) => {
         <button
           type="button"
           className="flex justify-center items-center bg-red-800 py-2 px-4 w-full text-white rounded text-xs uppercase font-bold"
+          onClick={confirmDeleteProduct}
         >
           Delete
           <svg
