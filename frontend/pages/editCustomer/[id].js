@@ -1,5 +1,18 @@
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
+import { useQuery, gql } from "@apollo/client";
+
+const GET_CUSTOMER = gql`
+  query getCustomer($id: ID!) {
+    getCustomer(id: $id) {
+      name
+      surname
+      company
+      email
+      phone
+    }
+  }
+`;
 
 const EditCustomer = () => {
   // Obtener el ID actual
@@ -7,6 +20,15 @@ const EditCustomer = () => {
   const {
     query: { id },
   } = router;
+
+  // Consultar para obtener el cliente
+  const { data, loading, error } = useQuery(GET_CUSTOMER, {
+    variables: {
+      id,
+    },
+  });
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <Layout>
