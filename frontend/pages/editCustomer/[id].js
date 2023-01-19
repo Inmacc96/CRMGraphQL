@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import Layout from "../../components/Layout";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 
 const GET_CUSTOMER = gql`
   query getCustomer($id: ID!) {
@@ -12,6 +13,15 @@ const GET_CUSTOMER = gql`
       company
       email
       phone
+    }
+  }
+`;
+
+const UPDATE_CUSTOMER = gql`
+  mutation updateCustomer($id: ID!, $input: CustomerInput) {
+    updateCustomer(id: $id, input: $input) {
+      name
+      email
     }
   }
 `;
@@ -30,6 +40,9 @@ const EditCustomer = () => {
     },
   });
 
+  // Mutation para actualizar los datos del cliente
+  const [updateCustomer] = useMutation(UPDATE_CUSTOMER);
+
   // Schema de validacion
   const schemaValidation = Yup.object({
     name: Yup.string().required("The customer's name is required"),
@@ -44,6 +57,27 @@ const EditCustomer = () => {
 
   const { getCustomer } = data;
 
+  // Modifica el cliente en la BD
+  const updateCustomerDB = async (values) => {
+    try {
+      const { name, surname, company, email, phone } = values;
+      const { data } = await updateCustomer({
+        variables: {
+          id,
+          input: { name, surname, company, email, phone },
+        },
+      });
+
+      // Mostrar alerta
+      Swal.fire("Updated!", "The client was successfully updated", "success");
+
+      // Redireccionar
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800 font-light"> Edit Customer</h1>
@@ -55,7 +89,7 @@ const EditCustomer = () => {
             enableReinitialize
             initialValues={getCustomer}
             onSubmit={(values) => {
-              console.log(values);
+              updateCustomerDB(values);
             }}
           >
             {(props) => {
