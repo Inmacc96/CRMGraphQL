@@ -7,9 +7,39 @@ const DELETE_CUSTOMER = gql`
   }
 `;
 
+const GET_CUSTOMERS_USER = gql`
+  query getCustomersSeller {
+    getCustomersSeller {
+      id
+      name
+      surname
+      company
+      email
+    }
+  }
+`;
+
 const Customer = ({ customer }) => {
   // Mutation pata eliminar cliente
-  const [deleteCustomer] = useMutation(DELETE_CUSTOMER);
+  const [deleteCustomer] = useMutation(DELETE_CUSTOMER, {
+    update(cache) {
+      // Obtener el objeto de cache que deseamos actualizar
+      const { getCustomersSeller } = cache.readQuery({
+        query: GET_CUSTOMERS_USER,
+      });
+
+      // Reescribimos la cache
+      cache.writeQuery({
+        query: GET_CUSTOMERS_USER,
+        data: {
+          getCustomersSeller: getCustomersSeller.filter(
+            (customer) => customer.id !== id
+          ),
+        },
+      });
+      cache.evict({ id: cache.identify(customer) });
+    },
+  });
 
   const { id, name, surname, company, email } = customer;
 
