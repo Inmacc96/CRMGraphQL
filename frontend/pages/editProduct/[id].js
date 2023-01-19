@@ -1,5 +1,16 @@
 import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
+import { useQuery, gql } from "@apollo/client";
+
+const GET_PRODUCT = gql`
+  query getProduct($id: ID!) {
+    getProduct(id: $id) {
+      name
+      stock
+      price
+    }
+  }
+`;
 
 const EditProduct = () => {
   // Obtener el id
@@ -7,6 +18,17 @@ const EditProduct = () => {
   const {
     query: { id },
   } = router;
+
+  // Obtener el producto a editar
+  const { data, loading, error } = useQuery(GET_PRODUCT, {
+    variables: {
+      id,
+    },
+  });
+
+  if (loading) return <p>Loading...</p>;
+
+  const { getProduct } = data;
 
   return (
     <Layout>
