@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 const GET_CUSTOMER = gql`
   query getCustomer($id: ID!) {
     getCustomer(id: $id) {
+      id
       name
       surname
       company
@@ -20,20 +21,12 @@ const GET_CUSTOMER = gql`
 const UPDATE_CUSTOMER = gql`
   mutation updateCustomer($id: ID!, $input: CustomerInput) {
     updateCustomer(id: $id, input: $input) {
-      name
-      email
-    }
-  }
-`;
-
-const GET_CUSTOMERS_USER = gql`
-  query getCustomersSeller {
-    getCustomersSeller {
       id
       name
       surname
       company
       email
+      phone
     }
   }
 `;
@@ -53,34 +46,7 @@ const EditCustomer = () => {
   });
 
   // Mutation para actualizar los datos del cliente
-  const [updateCustomer] = useMutation(UPDATE_CUSTOMER, {
-    update(cache, { data: { updateCustomer } }) {
-      // Actualizar cliente actual
-      cache.writeQuery({
-        query: GET_CUSTOMER,
-        variables: { id },
-        data: {
-          getCustomer: updateCustomer,
-        },
-      });
-
-      // Actualizar la lista de clientes
-      const { getCustomersSeller } = cache.readQuery({
-        query: GET_CUSTOMERS_USER,
-      });
-
-      const updatedCustomers = getCustomersSeller.map((customer) =>
-        customer.id === id ? updateCustomer : customer
-      );
-
-      cache.writeQuery({
-        query: GET_CUSTOMERS_USER,
-        data: {
-          getCustomersSeller: updatedCustomers,
-        },
-      });
-    },
-  });
+  const [updateCustomer] = useMutation(UPDATE_CUSTOMER);
 
   // Schema de validacion
   const schemaValidation = Yup.object({

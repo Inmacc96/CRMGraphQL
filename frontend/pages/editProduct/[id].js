@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 const GET_PRODUCT = gql`
   query getProduct($id: ID!) {
     getProduct(id: $id) {
+      id
       name
       stock
       price
@@ -22,17 +23,6 @@ const UPDATE_PRODUCT = gql`
       name
       stock
       price
-    }
-  }
-`;
-
-const GET_PRODUCTS = gql`
-  query getProducts {
-    getProducts {
-      id
-      name
-      price
-      stock
     }
   }
 `;
@@ -52,34 +42,7 @@ const EditProduct = () => {
   });
 
   // Guardar el producto editado en la bd
-  const [updateProduct] = useMutation(UPDATE_PRODUCT, {
-    update(cache, { data: updateProduct }) {
-      // Actualizar la lista de productos
-      const { getProducts } = cache.readQuery({ query: GET_PRODUCTS });
-
-      const updatedProducts = getProducts.map((product) =>
-        product.id === id ? updateProduct : product
-      );
-
-      cache.writeQuery({
-        query: GET_PRODUCTS,
-        data: {
-          getProducts: updatedProducts,
-        },
-      });
-
-      // Actualizar el producto actual
-      cache.writeQuery({
-        query: GET_PRODUCT,
-        variables: {
-          id,
-        },
-        data: {
-          getProduct: updateProduct,
-        },
-      });
-    },
-  });
+  const [updateProduct] = useMutation(UPDATE_PRODUCT);
 
   // Schema de validacion
   const SchemaValidation = Yup.object({
