@@ -26,6 +26,18 @@ const UPDATE_CUSTOMER = gql`
   }
 `;
 
+const GET_CUSTOMERS_USER = gql`
+  query getCustomersSeller {
+    getCustomersSeller {
+      id
+      name
+      surname
+      company
+      email
+    }
+  }
+`;
+
 const EditCustomer = () => {
   // Obtener el ID actual
   const router = useRouter();
@@ -41,7 +53,34 @@ const EditCustomer = () => {
   });
 
   // Mutation para actualizar los datos del cliente
-  const [updateCustomer] = useMutation(UPDATE_CUSTOMER);
+  const [updateCustomer] = useMutation(UPDATE_CUSTOMER, {
+    update(cache, { data: { updateCustomer } }) {
+      // Actualizar cliente actual
+      cache.writeQuery({
+        query: GET_CUSTOMER,
+        variables: { id },
+        data: {
+          getCustomer: updateCustomer,
+        },
+      });
+
+      // Actualizar la lista de clientes
+      const { getCustomersSeller } = cache.readQuery({
+        query: GET_CUSTOMERS_USER,
+      });
+
+      const updatedCustomers = getCustomersSeller.map((customer) =>
+        customer.id === id ? updateCustomer : customer
+      );
+
+      cache.writeQuery({
+        query: GET_CUSTOMERS_USER,
+        data: {
+          getCustomersSeller: updatedCustomers,
+        },
+      });
+    },
+  });
 
   // Schema de validacion
   const schemaValidation = Yup.object({
