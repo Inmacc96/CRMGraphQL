@@ -4,18 +4,13 @@ import Router from "next/router";
 
 const DELETE_CUSTOMER = gql`
   mutation deleteCustomer($id: ID!) {
-    deleteCustomer(id: $id)
-  }
-`;
-
-const GET_CUSTOMERS_USER = gql`
-  query getCustomersSeller {
-    getCustomersSeller {
+    deleteCustomer(id: $id) {
       id
       name
       surname
       company
       email
+      phone
     }
   }
 `;
@@ -23,22 +18,11 @@ const GET_CUSTOMERS_USER = gql`
 const Customer = ({ customer }) => {
   // Mutation pata eliminar cliente
   const [deleteCustomer] = useMutation(DELETE_CUSTOMER, {
-    update(cache) {
-      // Obtener el objeto de cache que deseamos actualizar
-      const { getCustomersSeller } = cache.readQuery({
-        query: GET_CUSTOMERS_USER,
-      });
+    update(cache, { data: { deleteCustomer } }) {
+      const identify = cache.identify(deleteCustomer);
 
-      // Reescribimos la cache
-      cache.writeQuery({
-        query: GET_CUSTOMERS_USER,
-        data: {
-          getCustomersSeller: getCustomersSeller.filter(
-            (customer) => customer.id !== id
-          ),
-        },
-      });
-      cache.evict({ id: cache.identify(customer) });
+      cache.evict({ id: identify });
+      cache.gc();
     },
   });
 
@@ -58,14 +42,14 @@ const Customer = ({ customer }) => {
       if (result.isConfirmed) {
         try {
           // Eliminar por ID
-          const { data } = await deleteCustomer({
+          await deleteCustomer({
             variables: {
               id,
             },
           });
 
           // Mostrar una alerta
-          Swal.fire("Deleted!", data.deleteCustomer, "success");
+          Swal.fire("Deleted!", "Deleted Customer", "success");
         } catch (err) {
           console.log(err);
         }
