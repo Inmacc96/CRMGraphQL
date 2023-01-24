@@ -308,8 +308,8 @@ const resolvers = {
       }
 
       // Borrar el cliente de la base de datos
-      await Customer.findOneAndDelete({ _id: id });
-      return "Deleted customer";
+      const deletedCustomer = await Customer.findOneAndDelete({ _id: id });
+      return deletedCustomer;
     },
     newOrder: async (_, { input }, { user }) => {
       const { customer: customerID, order } = input;
