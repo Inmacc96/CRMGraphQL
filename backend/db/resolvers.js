@@ -407,8 +407,8 @@ const resolvers = {
       }
 
       // Borrar el cliente de la base de datos
-      await Order.findOneAndDelete({ _id: id });
-      return "Deleted order";
+      const deletedOrder = await Order.findOneAndDelete({ _id: id });
+      return { deletedOrder };
     },
   },
 };
