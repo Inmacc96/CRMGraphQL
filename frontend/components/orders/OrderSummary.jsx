@@ -1,11 +1,10 @@
 import { useContext } from "react";
 import OrderContext from "../../context/orders/OrderContext";
+import ProductSummary from "./ProductSummary";
 
 const OrderSummary = () => {
   // Context de pedidos
   const { products } = useContext(OrderContext);
-
-  console.log(products);
 
   return (
     <>
@@ -15,7 +14,9 @@ const OrderSummary = () => {
 
       {products.length > 0 ? (
         <>
-          <p> There are products</p>
+          {products.map((product) => (
+            <ProductSummary key={product.id} product={product} />
+          ))}
         </>
       ) : (
         <p className="mt-5 text-sm"> There are no products yet</p>
