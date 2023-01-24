@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import Select from "react-select";
 import { gql, useQuery } from "@apollo/client";
+import OrderContext from "../../context/orders/OrderContext";
 
 const GET_PRODUCTS = gql`
   query getProducts {
@@ -13,16 +15,19 @@ const GET_PRODUCTS = gql`
 `;
 
 const AssignProducts = () => {
+  // Context de pedidos
+  const { addProducts } = useContext(OrderContext);
+
   // Obtener los productos de la base de datos
   const { data, loading, error } = useQuery(GET_PRODUCTS);
+
+  const selectProducts = (values) => {
+    addProducts(values);
+  };
 
   if (loading) return null;
 
   const { getProducts } = data;
-
-  const selectProducts = (values) => {
-    console.log(values);
-  };
 
   return (
     <>

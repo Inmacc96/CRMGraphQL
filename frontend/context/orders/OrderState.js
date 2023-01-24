@@ -18,14 +18,18 @@ const OrderState = ({ children }) => {
 
   const [state, dispatch] = useReducer(OrderReducer, initialState);
 
-  // modifica el cliente
-
+  // Modifica el cliente
   const addCustomer = (customer) => {
     dispatch({ type: SELECT_CUSTOMER, payload: customer });
   };
 
+  // Modifica los productos
+  const addProducts = (products) => {
+    dispatch({ type: SELECT_PRODUCT, payload: products });
+  };
+
   return (
-    <OrderContext.Provider value={{ addCustomer }}>
+    <OrderContext.Provider value={{ addCustomer, addProducts }}>
       {children}
     </OrderContext.Provider>
   );
