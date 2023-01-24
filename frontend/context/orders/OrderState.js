@@ -11,14 +11,24 @@ import {
 const OrderState = ({ children }) => {
   // State de pedidos
   const initialState = {
-    customer: [],
+    customer: {},
     products: [],
     total: 0,
   };
 
   const [state, dispatch] = useReducer(OrderReducer, initialState);
 
-  return <OrderContext.Provider value={{}}>{children}</OrderContext.Provider>;
+  // modifica el cliente
+
+  const addCustomer = (customer) => {
+    dispatch({ type: SELECT_CUSTOMER, payload: customer });
+  };
+
+  return (
+    <OrderContext.Provider value={{ addCustomer }}>
+      {children}
+    </OrderContext.Provider>
+  );
 };
 
 export default OrderState;

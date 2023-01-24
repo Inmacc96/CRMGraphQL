@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import Select from "react-select";
 import { useQuery, gql } from "@apollo/client";
+import OrderContext from "../../context/orders/OrderContext";
 
 const GET_CUSTOMERS_USER = gql`
   query getCustomersSeller {
@@ -15,17 +16,14 @@ const GET_CUSTOMERS_USER = gql`
 `;
 
 const AssignCustomer = () => {
-  const [customer, setCustomer] = useState({});
+  // Context de pedidos
+  const { addCustomer } = useContext(OrderContext);
 
   // Consultar la base de datos para obtener los clientes
   const { data, loading, error } = useQuery(GET_CUSTOMERS_USER);
 
-  useEffect(() => {
-    console.log(customer);
-  }, [customer]);
-
   const selectCustomer = (values) => {
-    setCustomer(values);
+    addCustomer(values);
   };
 
   // Resultados de la consulta
