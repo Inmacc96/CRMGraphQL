@@ -253,8 +253,8 @@ const resolvers = {
       }
 
       // Eliminar
-      await Product.findOneAndDelete({ _id: id });
-      return "Deleted product";
+      const deletedProduct = await Product.findOneAndDelete({ _id: id });
+      return deletedProduct;
     },
     newCustomer: async (_, { input }, { user }) => {
       const { email } = input;
