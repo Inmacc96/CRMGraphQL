@@ -24,8 +24,21 @@ const OrderState = ({ children }) => {
   };
 
   // Modifica los productos
-  const addProducts = (products) => {
-    dispatch({ type: SELECT_PRODUCT, payload: products });
+  const addProducts = (selectedProducts) => {
+    let newState;
+    if (state.products.length > 0) {
+      //Tomar del segundo arreglo una copia para asignarlo al primero
+      newState = selectedProducts.map((product) => {
+        const newObject = state.products.find(
+          (productState) => (productState.id = product.id)
+        );
+        return { ...product, ...newObject };
+      });
+    } else {
+      newState = selectedProducts;
+    }
+
+    dispatch({ type: SELECT_PRODUCT, payload: newState });
   };
 
   // Modifica las cantidades de los productos
