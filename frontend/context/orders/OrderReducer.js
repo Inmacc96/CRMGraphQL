@@ -2,6 +2,7 @@ import {
   SELECT_CUSTOMER,
   SELECT_PRODUCT,
   QUANTITY_PRODUCTS,
+  UPDATE_TOTALPAYABLE,
 } from "../../types";
 
 const OrderReducer = (state, action) => {
@@ -21,6 +22,14 @@ const OrderReducer = (state, action) => {
         ...state,
         products: state.products.map((product) =>
           product.id === action.payload.id ? action.payload : product
+        ),
+      };
+    case UPDATE_TOTALPAYABLE:
+      return {
+        ...state,
+        total: state.products.reduce(
+          (newTotal, product) => newTotal + product.price * product.quantity,
+          0
         ),
       };
     default:

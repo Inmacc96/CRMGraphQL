@@ -6,6 +6,7 @@ import {
   SELECT_CUSTOMER,
   SELECT_PRODUCT,
   QUANTITY_PRODUCTS,
+  UPDATE_TOTALPAYABLE,
 } from "../../types";
 
 const OrderState = ({ children }) => {
@@ -46,13 +47,19 @@ const OrderState = ({ children }) => {
     dispatch({ type: QUANTITY_PRODUCTS, payload: newProduct });
   };
 
+  const updateTotalPayable = () => {
+    dispatch({ type: UPDATE_TOTALPAYABLE });
+  };
+
   return (
     <OrderContext.Provider
       value={{
         products: state.products,
+        total: state.total,
         addCustomer,
         addProducts,
         quantityProducts,
+        updateTotalPayable,
       }}
     >
       {children}

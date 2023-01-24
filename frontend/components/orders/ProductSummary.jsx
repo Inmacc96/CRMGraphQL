@@ -3,12 +3,13 @@ import OrderContext from "../../context/orders/OrderContext";
 
 const ProductSummary = ({ product }) => {
   // Context de pedidos
-  const { quantityProducts } = useContext(OrderContext);
+  const { quantityProducts, updateTotalPayable } = useContext(OrderContext);
 
   const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
     updateQuantity();
+    updateTotalPayable();
   }, [quantity]);
 
   const updateQuantity = () => {
