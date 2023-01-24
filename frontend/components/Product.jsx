@@ -4,17 +4,11 @@ import Router from "next/router";
 
 const DELETE_PRODUCT = gql`
   mutation deleteProduct($id: ID!) {
-    deleteProduct(id: $id)
-  }
-`;
-
-const GET_PRODUCTS = gql`
-  query getProducts {
-    getProducts {
+    deleteProduct(id: $id) {
       id
       name
-      price
       stock
+      price
     }
   }
 `;
@@ -24,22 +18,11 @@ const Product = ({ product }) => {
 
   // Mutation para eliminar un producto
   const [deleteProduct] = useMutation(DELETE_PRODUCT, {
-    update(cache) {
-      // Obtener el objeto de la cache que deseamos actualizar
-      const { getProducts } = cache.readQuery({
-        query: GET_PRODUCTS,
-      });
+    update(cache, { data: { deleteProduct } }) {
+      const identify = cache.identify(deleteProduct);
 
-      // Reescribimos la cache
-      cache.writeQuery({
-        query: GET_PRODUCTS,
-        data: {
-          getProducts: getProducts.filter((product) => product.id !== id),
-        },
-      });
-
-      // Eliminamos individualmente
-      cache.evict({ id: cache.identify(product) });
+      cache.evict({ id: identify });
+      cache.gc();
     },
   });
 
@@ -56,14 +39,14 @@ const Product = ({ product }) => {
       if (result.isConfirmed) {
         try {
           // Eliminar por ID
-          const { data } = await deleteProduct({
+          await deleteProduct({
             variables: {
               id,
             },
           });
 
           // Mostrar una alerta
-          Swal.fire("Deleted!", data.deleteProduct, "success");
+          Swal.fire("Deleted!", "Deleted product", "success");
         } catch (err) {
           console.log(err);
         }
