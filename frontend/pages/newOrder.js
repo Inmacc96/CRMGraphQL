@@ -6,6 +6,8 @@ import OrderSummary from "../components/orders/OrderSummary";
 import TotalPayable from "../components/orders/TotalPayable";
 import OrderContext from "../context/orders/OrderContext";
 import { useMutation, gql } from "@apollo/client";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 const NEW_ORDER = gql`
   mutation newOrder($input: OrderInput) {
@@ -16,6 +18,9 @@ const NEW_ORDER = gql`
 `;
 
 const NewOrder = () => {
+  // router
+  const router = useRouter();
+
   // State de mensaje
   const [msg, setMsg] = useState(null);
 
@@ -48,7 +53,11 @@ const NewOrder = () => {
         },
       });
 
-      console.log(data);
+      // Redireccionar
+      router.push("/orders");
+
+      // Mostrar alerta
+      Swal.fire("Correct", "The order was successfully registered", "success");
     } catch (err) {
       setMsg(err.message.replace("Apollo error: ", ""));
 
