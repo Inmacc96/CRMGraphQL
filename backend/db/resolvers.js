@@ -351,7 +351,9 @@ const resolvers = {
       newOrder.seller = user.id;
 
       // Guardarlo en la base de datos
-      return await newOrder.save();
+      const newSavedOrder = await newOrder.save();
+
+      return await newSavedOrder.populate("customer");
     },
     updateOrder: async (_, { id, input }, { user }) => {
       const { customer: customerID, order } = input;
