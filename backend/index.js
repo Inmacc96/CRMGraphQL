@@ -22,7 +22,6 @@ const server = new ApolloServer({
           token.replace("Bearer ", ""),
           process.env.JWT_SECRET
         );
-        console.log(user);
         return { user };
       } catch (err) {
         console.log("There was a error");
