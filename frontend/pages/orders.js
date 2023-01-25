@@ -14,7 +14,13 @@ const GET_ORDERS = gql`
         price
       }
       total
-      customer
+      customer {
+        id
+        name
+        surname
+        email
+        phone
+      }
       seller
       state
     }

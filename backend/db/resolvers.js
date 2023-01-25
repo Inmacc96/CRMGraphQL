@@ -77,7 +77,9 @@ const resolvers = {
     },
     getOrdersSeller: async (_, {}, { user }) => {
       try {
-        const orders = await Order.find({ seller: user.id });
+        const orders = await Order.find({ seller: user.id }).populate(
+          "customer"
+        );
         return orders;
       } catch (err) {
         console.log(err);
