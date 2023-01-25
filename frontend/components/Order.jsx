@@ -1,4 +1,14 @@
 import { useState, useEffect } from "react";
+import { useMutation, gql } from "@apollo/client";
+
+const UPDATE_ORDER = gql`
+  mutation updateOrder($id: ID!, $input: OrderInput) {
+    updateOrder(id: $id, input: $input) {
+      id
+      state
+    }
+  }
+`;
 
 const Order = ({ order }) => {
   const {
@@ -8,12 +18,32 @@ const Order = ({ order }) => {
     state,
   } = order;
 
+  // Mutation para cambiar el estado de un pedido
+  const [updateOrder] = useMutation(UPDATE_ORDER);
+
   const [orderState, setOrderState] = useState(state);
   const [orderStateColor, setOrderStateColor] = useState("");
 
   useEffect(() => {
     changeOrderStateColor();
   }, [orderState]);
+
+  const changeOrderState = async (newState) => {
+    try {
+      const { data } = await updateOrder({
+        variables: {
+          id,
+          input: {
+            customer: order.customer.id,
+            state: newState,
+          },
+        },
+      });
+      setOrderState(data.updateOrder.state);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // Función que modifica el color del pedido de acuerdo a su estado
   const changeOrderStateColor = () => {
@@ -81,7 +111,7 @@ const Order = ({ order }) => {
         <select
           className="mt-2 appearance-none bg-blue-600 border border-blue-600 text-white p-2 text-center rounded leading-tight focus:outline-none focus:bg-blue-600 focus:border-blue-500 uppercase text-xs font-bold"
           value={orderState}
-          onChange={(e) => setOrderState(e.target.value)}
+          onChange={(e) => changeOrderState(e.target.value)}
         >
           <option value="COMPLETED">COMPLETED</option>
           <option value="PENDING">PENDING</option>
