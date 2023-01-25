@@ -31,7 +31,7 @@ const OrderState = ({ children }) => {
       //Tomar del segundo arreglo una copia para asignarlo al primero
       newState = selectedProducts.map((product) => {
         const newObject = state.products.find(
-          (productState) => (productState.id = product.id)
+          (productState) => (productState.id === product.id)
         );
         return { ...product, ...newObject };
       });
