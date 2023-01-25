@@ -13,6 +13,46 @@ const NEW_ORDER = gql`
   mutation newOrder($input: OrderInput) {
     newOrder(input: $input) {
       id
+      order {
+        id
+        quantity
+        name
+        price
+      }
+      total
+      customer {
+        id
+        name
+        surname
+        email
+        phone
+      }
+      seller
+      state
+    }
+  }
+`;
+
+const GET_ORDERS = gql`
+  query getOrdersSeller {
+    getOrdersSeller {
+      id
+      order {
+        id
+        quantity
+        name
+        price
+      }
+      total
+      customer {
+        id
+        name
+        surname
+        email
+        phone
+      }
+      seller
+      state
     }
   }
 `;
@@ -28,7 +68,18 @@ const NewOrder = () => {
   const { customer, products, total } = useContext(OrderContext);
 
   // Mutation para crear un nuevo pedido
-  const [newOrder] = useMutation(NEW_ORDER);
+  const [newOrder] = useMutation(NEW_ORDER, {
+    update(cache, { data: { newOrder } }) {
+      const { getOrdersSeller } = cache.readQuery({ query: GET_ORDERS });
+
+      cache.writeQuery({
+        query: GET_ORDERS,
+        data: {
+          getOrdersSeller: [...getOrdersSeller, newOrder],
+        },
+      });
+    },
+  });
 
   const validateOrder = () => {
     return !products.every((product) => product.quantity > 0) ||
@@ -61,6 +112,7 @@ const NewOrder = () => {
       // Mostrar alerta
       Swal.fire("Correct", "The order was successfully registered", "success");
     } catch (err) {
+      console.log(err.message);
       setMsg(err.message.replace("Apollo error: ", ""));
 
       setTimeout(() => {
