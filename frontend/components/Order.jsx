@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
 import { useMutation, gql } from "@apollo/client";
+import Swal from "sweetalert2";
 
 const UPDATE_ORDER = gql`
   mutation updateOrder($id: ID!, $input: OrderInput) {
     updateOrder(id: $id, input: $input) {
       id
       state
+    }
+  }
+`;
+
+const DELETE_ORDER = gql`
+  mutation deleteOrder($id: ID!) {
+    deleteOrder(id: $id) {
+      id
     }
   }
 `;
@@ -20,6 +29,9 @@ const Order = ({ order }) => {
 
   // Mutation para cambiar el estado de un pedido
   const [updateOrder] = useMutation(UPDATE_ORDER);
+
+  // Mutation para eliminar un pedido
+  const [deleteOrder] = useMutation(DELETE_ORDER);
 
   const [orderState, setOrderState] = useState(state);
   const [orderStateColor, setOrderStateColor] = useState("");
@@ -54,6 +66,35 @@ const Order = ({ order }) => {
     } else {
       setOrderStateColor("border-red-800");
     }
+  };
+
+  // Funcion eliminar pedido
+  const confirmDeleteOrder = () => {
+    Swal.fire({
+      title: "Do you want to remove this order?",
+      text: "This action cannot be reversed!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Eliminar por ID
+          await deleteOrder({
+            variables: {
+              id,
+            },
+          });
+
+          // Mostrar una alerta
+          Swal.fire("Deleted!", "Deleted order", "success");
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    });
   };
 
   return (
@@ -138,6 +179,7 @@ const Order = ({ order }) => {
         <button
           type="button"
           className="flex items-center mt-4 bg-red-800 px-5 py-2 text-white rounded leading-tight uppercase text-xs font-bold"
+          onClick={confirmDeleteOrder}
         >
           Delete Order
           <svg
