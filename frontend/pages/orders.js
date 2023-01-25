@@ -10,6 +10,8 @@ const GET_ORDERS = gql`
       order {
         id
         quantity
+        name
+        price
       }
       total
       customer
