@@ -48,6 +48,8 @@ const NewOrder = () => {
             order: products.map((product) => ({
               id: product.id,
               quantity: product.quantity,
+              name: product.name,
+              price: product.price,
             })),
           },
         },
