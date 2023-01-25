@@ -31,7 +31,14 @@ const Order = ({ order }) => {
   const [updateOrder] = useMutation(UPDATE_ORDER);
 
   // Mutation para eliminar un pedido
-  const [deleteOrder] = useMutation(DELETE_ORDER);
+  const [deleteOrder] = useMutation(DELETE_ORDER, {
+    update(cache, { data: { deleteOrder } }) {
+      const identify = cache.identify(deleteOrder);
+
+      cache.evict({ id: identify });
+      cache.gc();
+    },
+  });
 
   const [orderState, setOrderState] = useState(state);
   const [orderStateColor, setOrderStateColor] = useState("");

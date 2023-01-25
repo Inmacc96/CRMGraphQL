@@ -410,7 +410,7 @@ const resolvers = {
 
       // Borrar el cliente de la base de datos
       const deletedOrder = await Order.findOneAndDelete({ _id: id });
-      return { deletedOrder };
+      return deletedOrder;
     },
   },
 };
