@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Order = ({ order }) => {
   const {
@@ -9,9 +9,27 @@ const Order = ({ order }) => {
   } = order;
 
   const [orderState, setOrderState] = useState(state);
+  const [orderStateColor, setOrderStateColor] = useState("");
+
+  useEffect(() => {
+    changeOrderStateColor();
+  }, [orderState]);
+
+  // Función que modifica el color del pedido de acuerdo a su estado
+  const changeOrderStateColor = () => {
+    if (orderState === "PENDING") {
+      setOrderStateColor("border-yellow-500");
+    } else if (orderState === "COMPLETED") {
+      setOrderStateColor("border-green-500");
+    } else {
+      setOrderStateColor("border-red-800");
+    }
+  };
 
   return (
-    <div className="mt-4 bg-white rounded p-6 md:grid md:grid-cols-2 md:gap-4 shadow-lg">
+    <div
+      className={`mt-4 bg-white rounded p-6 md:grid md:grid-cols-2 md:gap-4 shadow-lg ${orderStateColor} border-t-4`}
+    >
       <div>
         <p className="font-bold text-gray-800">
           Customer: {name} {surname}
