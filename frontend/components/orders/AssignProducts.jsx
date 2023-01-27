@@ -19,7 +19,9 @@ const AssignProducts = () => {
   const { addProducts } = useContext(OrderContext);
 
   // Obtener los productos de la base de datos
-  const { data, loading, error } = useQuery(GET_PRODUCTS);
+  const { data, loading, error } = useQuery(GET_PRODUCTS, {
+    fetchPolicy: "network-only",
+  });
 
   const selectProducts = (values) => {
     addProducts(values);
