@@ -1,8 +1,8 @@
+import { useEffect } from "react";
 import Layout from "../components/Layout";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -24,7 +24,15 @@ const BEST_SELLERS = gql`
 `;
 
 const BestSellers = () => {
-  const { data, loading } = useQuery(BEST_SELLERS);
+  const { data, loading, startPolling, stopPolling } = useQuery(BEST_SELLERS);
+
+  useEffect(() => {
+    //Despues de un segundo, si los datos han cambiado, entonces hace la consulta
+    startPolling(1000);
+    return () => {
+      stopPolling();
+    };
+  }, [startPolling, stopPolling]);
 
   if (loading) return <p>Loading...</p>;
 
