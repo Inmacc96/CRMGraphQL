@@ -19,7 +19,11 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      OrderProduct: { keyFields: ["id", "quantity"]},
+    },
+  }),
   link: authLink.concat(httpLink),
 });
 
