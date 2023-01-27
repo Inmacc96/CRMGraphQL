@@ -36,8 +36,8 @@ const Header = () => {
   };
 
   return (
-    <header className="flex justify-between mb-6">
-      <p>
+    <header className="sm:flex sm:justify-between mb-6">
+      <p className="mt-2 mb-5 lg:mb-0">
         Hola: {name} {surname}
       </p>
       <button
