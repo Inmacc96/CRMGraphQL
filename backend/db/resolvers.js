@@ -381,7 +381,7 @@ const resolvers = {
       if (order) {
         for await (const item of order) {
           const { id } = item;
-          const product = await Product.find(id);
+          const product = await Product.findById(id);
 
           if (item.quantity > product.stock) {
             throw new Error(
@@ -408,6 +408,18 @@ const resolvers = {
       // Comprobar que el vendedor es quien lo borra
       if (user.id !== order.seller.toString()) {
         throw new Error("You do not have permission to delete this order");
+      }
+
+      // Actualizar el stock de los productos
+      if (order.order) {
+        for await (const item of order.order) {
+          const { id } = item;
+          const product = await Product.findById(id);
+
+          // Sumar la cantidad de los productos a lo ya disponible
+          product.stock = product.stock + item.quantity;
+          await product.save();
+        }
       }
 
       // Borrar el cliente de la base de datos
