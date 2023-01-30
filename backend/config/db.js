@@ -1,9 +1,10 @@
-const moongose = require("mongoose");
+const mongoose = require("mongoose");
 require("dotenv").config({ path: ".env" });
 
 const connectDB = async () => {
   try {
-    const connection = await moongose.connect(process.env.MONGO_URI, {
+    mongoose.set("strictQuery", false); // true: Solamente los campos que se definan en el esquema serán guardados en la bd. Por defecto false
+    const connection = await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
