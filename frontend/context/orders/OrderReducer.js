@@ -3,6 +3,7 @@ import {
   SELECT_PRODUCT,
   QUANTITY_PRODUCTS,
   UPDATE_TOTALPAYABLE,
+  CLEAN_GLOBAL_STATE,
 } from "../../types";
 
 const OrderReducer = (state, action) => {
@@ -31,6 +32,13 @@ const OrderReducer = (state, action) => {
           (newTotal, product) => newTotal + product.price * product.quantity,
           0
         ),
+      };
+    case CLEAN_GLOBAL_STATE:
+      return {
+        ...state,
+        total: 0,
+        products: [],
+        customer: {},
       };
     default:
       return state;

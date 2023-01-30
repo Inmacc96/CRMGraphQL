@@ -7,6 +7,7 @@ import {
   SELECT_PRODUCT,
   QUANTITY_PRODUCTS,
   UPDATE_TOTALPAYABLE,
+  CLEAN_GLOBAL_STATE
 } from "../../types";
 
 const OrderState = ({ children }) => {
@@ -31,7 +32,7 @@ const OrderState = ({ children }) => {
       //Tomar del segundo arreglo una copia para asignarlo al primero
       newState = selectedProducts.map((product) => {
         const newObject = state.products.find(
-          (productState) => (productState.id === product.id)
+          (productState) => productState.id === product.id
         );
         return { ...product, ...newObject };
       });
@@ -51,6 +52,10 @@ const OrderState = ({ children }) => {
     dispatch({ type: UPDATE_TOTALPAYABLE });
   };
 
+  const cleanGlobalState = () => {
+    dispatch({ type: CLEAN_GLOBAL_STATE });
+  };
+
   return (
     <OrderContext.Provider
       value={{
@@ -61,6 +66,7 @@ const OrderState = ({ children }) => {
         addProducts,
         quantityProducts,
         updateTotalPayable,
+        cleanGlobalState
       }}
     >
       {children}

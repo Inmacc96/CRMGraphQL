@@ -65,7 +65,8 @@ const NewOrder = () => {
   const [msg, setMsg] = useState(null);
 
   // Context de pedidos
-  const { customer, products, total } = useContext(OrderContext);
+  const { customer, products, total, cleanGlobalState } =
+    useContext(OrderContext);
 
   // Mutation para crear un nuevo pedido
   const [newOrder] = useMutation(NEW_ORDER, {
@@ -111,6 +112,9 @@ const NewOrder = () => {
 
       // Mostrar alerta
       Swal.fire("Correct", "The order was successfully registered", "success");
+
+      // Limpiar el state global
+      cleanGlobalState();
     } catch (err) {
       console.log(err.message);
       setMsg(err.message.replace("Apollo error: ", ""));
