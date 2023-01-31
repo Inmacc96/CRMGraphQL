@@ -1,7 +1,11 @@
+import { useApolloClient } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useAuth } from "../hooks/useAuth";
 
 const Header = () => {
+  // client Apollo
+  const client = useApolloClient();
+
   // router
   const router = useRouter();
 
@@ -15,6 +19,7 @@ const Header = () => {
   // Cerrar sesion
   const logOut = () => {
     localStorage.removeItem("token");
+    client.clearStore();
     router.push("/login");
   };
 
