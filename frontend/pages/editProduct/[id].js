@@ -4,6 +4,7 @@ import { useQuery, useMutation, gql } from "@apollo/client";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import withAuth from "../../HOC/withAuth";
 
 const GET_PRODUCT = gql`
   query getProduct($id: ID!) {
@@ -196,4 +197,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct;
+export default withAuth(EditProduct);

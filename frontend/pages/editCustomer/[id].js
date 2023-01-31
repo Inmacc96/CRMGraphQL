@@ -4,6 +4,7 @@ import Layout from "../../components/Layout";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import withAuth from "../../HOC/withAuth";
 
 const GET_CUSTOMER = gql`
   query getCustomer($id: ID!) {
@@ -236,4 +237,4 @@ const EditCustomer = () => {
   );
 };
 
-export default EditCustomer;
+export default withAuth(EditCustomer);
