@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import withAuth from "../HOC/withAuth";
 
 const NEW_PRODUCT = gql`
   mutation newProduct($input: ProductInput) {
@@ -187,4 +188,4 @@ const NewProduct = () => {
   );
 };
 
-export default NewProduct;
+export default withAuth(NewProduct);

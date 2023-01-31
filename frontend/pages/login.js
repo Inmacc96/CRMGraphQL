@@ -90,6 +90,7 @@ const Login = () => {
                 id="email"
                 type="email"
                 placeholder="User Email"
+                autoComplete="false"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -115,6 +116,7 @@ const Login = () => {
                 id="password"
                 type="password"
                 placeholder="User Password"
+                autoComplete="false"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

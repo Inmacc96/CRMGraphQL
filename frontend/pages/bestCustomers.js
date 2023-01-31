@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { gql, useQuery } from "@apollo/client";
+import withAuth from "../HOC/withAuth";
 
 const BEST_CUSTOMERS = gql`
   query getBestCustomers {
@@ -77,4 +78,4 @@ const BestCustomers = () => {
   );
 };
 
-export default BestCustomers;
+export default withAuth(BestCustomers);

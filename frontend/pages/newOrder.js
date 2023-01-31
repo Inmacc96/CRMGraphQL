@@ -8,6 +8,7 @@ import OrderContext from "../context/orders/OrderContext";
 import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import withAuth from "../HOC/withAuth";
 
 const NEW_ORDER = gql`
   mutation newOrder($input: OrderInput) {
@@ -155,4 +156,4 @@ const NewOrder = () => {
   );
 };
 
-export default NewOrder;
+export default withAuth(NewOrder);

@@ -1,33 +1,16 @@
-import { useQuery, gql } from "@apollo/client";
 import { useRouter } from "next/router";
-
-const GET_USER = gql`
-  query getUser {
-    getUser {
-      id
-      name
-      surname
-    }
-  }
-`;
+import { useAuth } from "../hooks/useAuth";
 
 const Header = () => {
   // router
   const router = useRouter();
 
-  //Query de apollo
-  const { data, loading, error } = useQuery(GET_USER);
+  const { user, loading } = useAuth();
 
   // Proteger que no accedamos a data antes de tener resultados
   if (loading) return "Loading...";
 
-  // Si no hay información
-  if (!data.getUser || error) {
-    router.push("/login");
-    return <p>Redirecting...</p>;
-  }
-
-  const { name, surname } = data.getUser;
+  const { name, surname } = user;
 
   // Cerrar sesion
   const logOut = () => {

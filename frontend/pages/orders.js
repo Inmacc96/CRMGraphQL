@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import Link from "next/link";
 import { useQuery, gql } from "@apollo/client";
 import Order from "../components/Order";
+import withAuth from "../HOC/withAuth";
 
 const GET_ORDERS = gql`
   query getOrdersSeller {
@@ -28,7 +29,7 @@ const GET_ORDERS = gql`
 `;
 
 const Orders = () => {
-  const { data, loading, error } = useQuery(GET_ORDERS);
+  const { data, loading } = useQuery(GET_ORDERS);
 
   if (loading) return "Loading...";
 
@@ -54,4 +55,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default withAuth(Orders);

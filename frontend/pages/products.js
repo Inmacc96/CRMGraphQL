@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import Product from "../components/Product";
 import { useQuery, gql } from "@apollo/client";
 import Link from "next/link";
+import withAuth from "../HOC/withAuth";
 
 const GET_PRODUCTS = gql`
   query getProducts {
@@ -51,4 +52,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default withAuth(Products);

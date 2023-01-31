@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/router";
+import withAuth from "../HOC/withAuth";
 
 const NEW_CUSTOMER = gql`
   mutation newCustomer($input: CustomerInput) {
@@ -238,4 +239,4 @@ const NewCustomer = () => {
   );
 };
 
-export default NewCustomer;
+export default withAuth(NewCustomer);

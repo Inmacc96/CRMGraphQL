@@ -1,8 +1,8 @@
 import Customer from "../components/Customer";
 import Layout from "../components/Layout";
-import { useQuery, gql } from "@apollo/client";
-import { useRouter } from "next/router";
+import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
+import withAuth from "../HOC/withAuth";
 
 const GET_CUSTOMERS_USER = gql`
   query getCustomersSeller {
@@ -16,20 +16,11 @@ const GET_CUSTOMERS_USER = gql`
   }
 `;
 
-export default function Home() {
-  //router
-  const router = useRouter();
-
-  // Consulta de Apollo
-  const { data, loading, error } = useQuery(GET_CUSTOMERS_USER);
+const Home = () => {
+  //Consulta de Apollo
+  const { data, loading } = useQuery(GET_CUSTOMERS_USER);
 
   if (loading) return <p>Loading...</p>;
-
-  // Proteger la ruta
-  if (!data.getCustomersSeller || error) {
-    router.push("/login");
-    return <p>Redirecting...</p>;
-  }
 
   return (
     <Layout>
@@ -62,4 +53,6 @@ export default function Home() {
       </div>
     </Layout>
   );
-}
+};
+
+export default withAuth(Home);
