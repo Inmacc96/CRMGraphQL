@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import withAuth from "../../HOC/withAuth";
+import Loading from "../../components/Loading";
 
 const GET_CUSTOMER = gql`
   query getCustomer($id: ID!) {
@@ -59,7 +60,7 @@ const EditCustomer = () => {
       .required("The customer's email is required"),
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   const { getCustomer } = data;
 

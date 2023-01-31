@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import withAuth from "../../HOC/withAuth";
+import Loading from "../../components/Loading";
 
 const GET_PRODUCT = gql`
   query getProduct($id: ID!) {
@@ -57,7 +58,7 @@ const EditProduct = () => {
       .positive("Negative numbers are not accepted"),
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   if (!data) return <p>Action not allowed</p>;
 

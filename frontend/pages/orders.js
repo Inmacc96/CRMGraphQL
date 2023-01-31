@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useQuery, gql } from "@apollo/client";
 import Order from "../components/Order";
 import withAuth from "../HOC/withAuth";
+import Loading from "../components/Loading";
 
 const GET_ORDERS = gql`
   query getOrdersSeller {
@@ -31,7 +32,7 @@ const GET_ORDERS = gql`
 const Orders = () => {
   const { data, loading } = useQuery(GET_ORDERS);
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
 
   const { getOrdersSeller } = data;
 

@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { gql, useQuery } from "@apollo/client";
 import withAuth from "../HOC/withAuth";
+import Loading from "../components/Loading";
 
 const BEST_SELLERS = gql`
   query getBestSellers {
@@ -36,7 +37,7 @@ const BestSellers = () => {
     };
   }, [startPolling, stopPolling]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   const { getBestSellers } = data;
 

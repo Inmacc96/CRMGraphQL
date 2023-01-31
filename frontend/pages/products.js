@@ -3,6 +3,7 @@ import Product from "../components/Product";
 import { useQuery, gql } from "@apollo/client";
 import Link from "next/link";
 import withAuth from "../HOC/withAuth";
+import Loading from "../components/Loading";
 
 const GET_PRODUCTS = gql`
   query getProducts {
@@ -19,7 +20,8 @@ const Products = () => {
   // Obtener los productos
   const { data, loading, error } = useQuery(GET_PRODUCTS);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
+
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800 font-light">Products</h1>
