@@ -1,14 +1,6 @@
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { GET_USER } from "../graphql/queries";
 
-const GET_USER = gql`
-  query getUser {
-    getUser {
-      id
-      name
-      surname
-    }
-  }
-`;
 export const useAuth = () => {
   const { data, loading, error } = useQuery(GET_USER, {
     fetchPolicy: "network-only",

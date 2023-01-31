@@ -1,17 +1,7 @@
-import { useMutation, gql } from "@apollo/client";
+import { useMutation} from "@apollo/client";
 import Swal from "sweetalert2";
 import Router from "next/router";
-
-const DELETE_PRODUCT = gql`
-  mutation deleteProduct($id: ID!) {
-    deleteProduct(id: $id) {
-      id
-      name
-      stock
-      price
-    }
-  }
-`;
+import { DELETE_PRODUCT } from "../graphql/mutations";
 
 const Product = ({ product }) => {
   const { name, stock, price, id } = product;

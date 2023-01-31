@@ -10,22 +10,10 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import withAuth from "../HOC/withAuth";
 import Loading from "../components/Loading";
-
-const BEST_CUSTOMERS = gql`
-  query getBestCustomers {
-    getBestCustomers {
-      total
-      customer {
-        id
-        name
-        company
-      }
-    }
-  }
-`;
+import { BEST_CUSTOMERS } from "../graphql/mutations";
 
 const BestCustomers = () => {
   const { data, loading, startPolling, stopPolling } = useQuery(BEST_CUSTOMERS);

@@ -1,21 +1,10 @@
 import Customer from "../components/Customer";
 import Layout from "../components/Layout";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Link from "next/link";
 import withAuth from "../HOC/withAuth";
 import Loading from "../components/Loading";
-
-const GET_CUSTOMERS_USER = gql`
-  query getCustomersSeller {
-    getCustomersSeller {
-      id
-      name
-      surname
-      company
-      email
-    }
-  }
-`;
+import { GET_CUSTOMERS_USER } from "../graphql/queries";
 
 const Home = () => {
   //Consulta de Apollo

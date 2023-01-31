@@ -3,18 +3,8 @@ import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useMutation, gql } from "@apollo/client";
-
-const NEW_USER = gql`
-  mutation newUser($input: UserInput) {
-    newUser(input: $input) {
-      id
-      name
-      surname
-      email
-    }
-  }
-`;
+import { useMutation } from "@apollo/client";
+import { NEW_USER } from "../graphql/mutations";
 
 const Signup = () => {
   // State para el mensaje

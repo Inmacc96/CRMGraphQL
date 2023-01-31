@@ -1,18 +1,8 @@
 import { useContext } from "react";
 import Select from "react-select";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import OrderContext from "../../context/orders/OrderContext";
-
-const GET_PRODUCTS = gql`
-  query getProducts {
-    getProducts {
-      id
-      name
-      price
-      stock
-    }
-  }
-`;
+import { GET_PRODUCTS } from "../../graphql/queries";
 
 const AssignProducts = () => {
   // Context de pedidos

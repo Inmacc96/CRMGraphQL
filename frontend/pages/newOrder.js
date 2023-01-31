@@ -5,58 +5,12 @@ import AssignProducts from "../components/orders/AssignProducts";
 import OrderSummary from "../components/orders/OrderSummary";
 import TotalPayable from "../components/orders/TotalPayable";
 import OrderContext from "../context/orders/OrderContext";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import withAuth from "../HOC/withAuth";
-
-const NEW_ORDER = gql`
-  mutation newOrder($input: OrderInput) {
-    newOrder(input: $input) {
-      id
-      order {
-        id
-        quantity
-        name
-        price
-      }
-      total
-      customer {
-        id
-        name
-        surname
-        email
-        phone
-      }
-      seller
-      state
-    }
-  }
-`;
-
-const GET_ORDERS = gql`
-  query getOrdersSeller {
-    getOrdersSeller {
-      id
-      order {
-        id
-        quantity
-        name
-        price
-      }
-      total
-      customer {
-        id
-        name
-        surname
-        email
-        phone
-      }
-      seller
-      state
-    }
-  }
-`;
+import { NEW_ORDER } from "../graphql/mutations";
+import { GET_ORDERS } from "../graphql/queries";
 
 const NewOrder = () => {
   // router

@@ -1,23 +1,7 @@
 import { useState, useEffect } from "react";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Swal from "sweetalert2";
-
-const UPDATE_ORDER = gql`
-  mutation updateOrder($id: ID!, $input: OrderInput) {
-    updateOrder(id: $id, input: $input) {
-      id
-      state
-    }
-  }
-`;
-
-const DELETE_ORDER = gql`
-  mutation deleteOrder($id: ID!) {
-    deleteOrder(id: $id) {
-      id
-    }
-  }
-`;
+import { UPDATE_ORDER, DELETE_ORDER } from "../graphql/mutations";
 
 const Order = ({ order }) => {
   const {

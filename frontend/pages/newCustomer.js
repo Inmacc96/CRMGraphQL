@@ -2,34 +2,11 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import withAuth from "../HOC/withAuth";
-
-const NEW_CUSTOMER = gql`
-  mutation newCustomer($input: CustomerInput) {
-    newCustomer(input: $input) {
-      id
-      name
-      surname
-      company
-      email
-      phone
-    }
-  }
-`;
-
-const GET_CUSTOMERS_USER = gql`
-  query getCustomersSeller {
-    getCustomersSeller {
-      id
-      name
-      surname
-      company
-      email
-    }
-  }
-`;
+import { NEW_CUSTOMER } from "../graphql/mutations";
+import { GET_CUSTOMERS_USER } from "../graphql/queries";
 
 const NewCustomer = () => {
   // router

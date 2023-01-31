@@ -1,33 +1,10 @@
 import Layout from "../components/Layout";
 import Link from "next/link";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Order from "../components/Order";
 import withAuth from "../HOC/withAuth";
 import Loading from "../components/Loading";
-
-const GET_ORDERS = gql`
-  query getOrdersSeller {
-    getOrdersSeller {
-      id
-      order {
-        id
-        quantity
-        name
-        price
-      }
-      total
-      customer {
-        id
-        name
-        surname
-        email
-        phone
-      }
-      seller
-      state
-    }
-  }
-`;
+import { GET_ORDERS } from "../graphql/queries";
 
 const Orders = () => {
   const { data, loading } = useQuery(GET_ORDERS);

@@ -1,20 +1,10 @@
 import Layout from "../components/Layout";
 import Product from "../components/Product";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Link from "next/link";
 import withAuth from "../HOC/withAuth";
 import Loading from "../components/Loading";
-
-const GET_PRODUCTS = gql`
-  query getProducts {
-    getProducts {
-      id
-      name
-      price
-      stock
-    }
-  }
-`;
+import { GET_PRODUCTS } from "../graphql/queries";
 
 const Products = () => {
   // Obtener los productos

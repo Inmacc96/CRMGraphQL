@@ -1,37 +1,13 @@
 import { useRouter } from "next/router";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import Layout from "../../components/Layout";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import withAuth from "../../HOC/withAuth";
 import Loading from "../../components/Loading";
-
-const GET_CUSTOMER = gql`
-  query getCustomer($id: ID!) {
-    getCustomer(id: $id) {
-      id
-      name
-      surname
-      company
-      email
-      phone
-    }
-  }
-`;
-
-const UPDATE_CUSTOMER = gql`
-  mutation updateCustomer($id: ID!, $input: CustomerInput) {
-    updateCustomer(id: $id, input: $input) {
-      id
-      name
-      surname
-      company
-      email
-      phone
-    }
-  }
-`;
+import { GET_CUSTOMER } from "../../graphql/queries";
+import { UPDATE_CUSTOMER } from "../../graphql/mutations";
 
 const EditCustomer = () => {
   // Obtener el ID actual

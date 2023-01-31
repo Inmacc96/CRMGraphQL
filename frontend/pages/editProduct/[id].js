@@ -1,33 +1,13 @@
 import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import withAuth from "../../HOC/withAuth";
 import Loading from "../../components/Loading";
-
-const GET_PRODUCT = gql`
-  query getProduct($id: ID!) {
-    getProduct(id: $id) {
-      id
-      name
-      stock
-      price
-    }
-  }
-`;
-
-const UPDATE_PRODUCT = gql`
-  mutation updateProduct($id: ID!, $input: ProductInput) {
-    updateProduct(id: $id, input: $input) {
-      id
-      name
-      stock
-      price
-    }
-  }
-`;
+import { GET_PRODUCT } from "../../graphql/queries";
+import { UPDATE_PRODUCT } from "../../graphql/mutations";
 
 const EditProduct = () => {
   // Obtener el id

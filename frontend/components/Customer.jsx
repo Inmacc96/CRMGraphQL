@@ -1,19 +1,7 @@
 import Swal from "sweetalert2";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation} from "@apollo/client";
 import Router from "next/router";
-
-const DELETE_CUSTOMER = gql`
-  mutation deleteCustomer($id: ID!) {
-    deleteCustomer(id: $id) {
-      id
-      name
-      surname
-      company
-      email
-      phone
-    }
-  }
-`;
+import { DELETE_CUSTOMER } from "../graphql/mutations";
 
 const Customer = ({ customer }) => {
   // Mutation pata eliminar cliente
