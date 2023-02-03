@@ -1,10 +1,10 @@
-import Layout from "../components/Layout";
-import Product from "../components/Product";
-import { useQuery } from "@apollo/client";
 import Link from "next/link";
-import withAuth from "../HOC/withAuth";
-import Loading from "../components/Loading";
+import { useQuery } from "@apollo/client";
 import { GET_PRODUCTS } from "../graphql/queries";
+import withAuth from "../HOC/withAuth";
+import Layout from "../components/Layout";
+import Loading from "../components/Loading";
+import Product from "../components/Product";
 
 const Products = () => {
   // Obtener los productos

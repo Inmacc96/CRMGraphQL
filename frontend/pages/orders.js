@@ -1,10 +1,10 @@
-import Layout from "../components/Layout";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import Order from "../components/Order";
-import withAuth from "../HOC/withAuth";
-import Loading from "../components/Loading";
 import { GET_ORDERS } from "../graphql/queries";
+import withAuth from "../HOC/withAuth";
+import Layout from "../components/Layout";
+import Loading from "../components/Loading";
+import Order from "../components/Order";
 
 const Orders = () => {
   const { data, loading } = useQuery(GET_ORDERS);

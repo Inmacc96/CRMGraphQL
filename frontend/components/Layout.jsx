@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import { useRouter } from "next/router";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 const Layout = ({ children }) => {
   // Hook de routing

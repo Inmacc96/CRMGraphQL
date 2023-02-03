@@ -1,16 +1,16 @@
 import { useContext, useState } from "react";
+import { useRouter } from "next/router";
+import { useMutation } from "@apollo/client";
+import { NEW_ORDER } from "../graphql/mutations";
+import { GET_ORDERS } from "../graphql/queries";
+import Swal from "sweetalert2";
+import withAuth from "../HOC/withAuth";
 import Layout from "../components/Layout";
 import AssignCustomer from "../components/orders/AssignCustomer";
 import AssignProducts from "../components/orders/AssignProducts";
 import OrderSummary from "../components/orders/OrderSummary";
 import TotalPayable from "../components/orders/TotalPayable";
 import OrderContext from "../context/orders/OrderContext";
-import { useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import Swal from "sweetalert2";
-import withAuth from "../HOC/withAuth";
-import { NEW_ORDER } from "../graphql/mutations";
-import { GET_ORDERS } from "../graphql/queries";
 
 const NewOrder = () => {
   // router

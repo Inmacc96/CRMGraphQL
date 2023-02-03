@@ -1,5 +1,5 @@
-import { useApolloClient } from "@apollo/client";
 import { useRouter } from "next/router";
+import { useApolloClient } from "@apollo/client";
 import { useAuth } from "../hooks/useAuth";
 
 const Header = () => {

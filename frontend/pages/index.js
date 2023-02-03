@@ -1,10 +1,10 @@
+import Link from "next/link";
+import { useQuery } from "@apollo/client";
+import { GET_CUSTOMERS_USER } from "../graphql/queries";
+import withAuth from "../HOC/withAuth";
 import Customer from "../components/Customer";
 import Layout from "../components/Layout";
-import { useQuery } from "@apollo/client";
-import Link from "next/link";
-import withAuth from "../HOC/withAuth";
 import Loading from "../components/Loading";
-import { GET_CUSTOMERS_USER } from "../graphql/queries";
 
 const Home = () => {
   //Consulta de Apollo

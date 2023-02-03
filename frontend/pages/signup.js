@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
 import { NEW_USER } from "../graphql/mutations";
+import Layout from "../components/Layout";
 
 const Signup = () => {
   // State para el mensaje

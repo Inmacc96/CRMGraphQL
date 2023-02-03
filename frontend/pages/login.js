@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Layout from "../components/Layout";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import Link from "next/link";
 import { AUTH_USER } from "../graphql/mutations";
+import Layout from "../components/Layout";
 
 const Login = () => {
   // State para el mensaje

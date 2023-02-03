@@ -1,13 +1,13 @@
-import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "@apollo/client";
+import { GET_PRODUCT } from "../../graphql/queries";
+import { UPDATE_PRODUCT } from "../../graphql/mutations";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import withAuth from "../../HOC/withAuth";
+import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
-import { GET_PRODUCT } from "../../graphql/queries";
-import { UPDATE_PRODUCT } from "../../graphql/mutations";
 
 const EditProduct = () => {
   // Obtener el id

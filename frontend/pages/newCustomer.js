@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Layout from "../components/Layout";
+import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import withAuth from "../HOC/withAuth";
 import { NEW_CUSTOMER } from "../graphql/mutations";
 import { GET_CUSTOMERS_USER } from "../graphql/queries";
+import withAuth from "../HOC/withAuth";
+import Layout from "../components/Layout";
 
 const NewCustomer = () => {
   // router

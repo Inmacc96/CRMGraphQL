@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
 import Swal from "sweetalert2";
+import { useMutation } from "@apollo/client";
 import { UPDATE_ORDER, DELETE_ORDER } from "../graphql/mutations";
 import { BEST_CUSTOMERS, BEST_SELLERS } from "../graphql/queries";
 

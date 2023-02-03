@@ -1,12 +1,12 @@
-import Layout from "../components/Layout";
+import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import Swal from "sweetalert2";
-import withAuth from "../HOC/withAuth";
 import { NEW_PRODUCT } from "../graphql/mutations";
 import { GET_PRODUCTS } from "../graphql/queries";
+import Swal from "sweetalert2";
+import withAuth from "../HOC/withAuth";
+import Layout from "../components/Layout";
 
 const NewProduct = () => {
   // Router

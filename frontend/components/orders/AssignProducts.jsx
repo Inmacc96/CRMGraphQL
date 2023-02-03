@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import Select from "react-select";
 import { useQuery } from "@apollo/client";
-import OrderContext from "../../context/orders/OrderContext";
 import { GET_PRODUCTS } from "../../graphql/queries";
+import OrderContext from "../../context/orders/OrderContext";
 
 const AssignProducts = () => {
   // Context de pedidos

@@ -1,6 +1,6 @@
-import { useMutation} from "@apollo/client";
-import Swal from "sweetalert2";
 import Router from "next/router";
+import Swal from "sweetalert2";
+import { useMutation} from "@apollo/client";
 import { DELETE_PRODUCT } from "../graphql/mutations";
 
 const Product = ({ product }) => {

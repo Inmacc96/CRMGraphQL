@@ -1,4 +1,5 @@
-import Layout from "../components/Layout";
+import { useQuery } from "@apollo/client";
+import { BEST_CUSTOMERS } from "../graphql/queries";
 import {
   BarChart,
   Bar,
@@ -9,10 +10,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useQuery } from "@apollo/client";
 import withAuth from "../HOC/withAuth";
+import Layout from "../components/Layout";
 import Loading from "../components/Loading";
-import { BEST_CUSTOMERS } from "../graphql/queries";
 
 const BestCustomers = () => {
   const { data, loading } = useQuery(BEST_CUSTOMERS);
