@@ -1,10 +1,11 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
 import typeDefs from "./db/schema.js";
 import resolvers from "./db/resolvers.js";
 import connectDB from "./config/db.js";
-import jwt from "jsonwebtoken";
-import * as dotenv from "dotenv";
+
 dotenv.config({ path: "env" });
 
 // Conectar a la base de datos

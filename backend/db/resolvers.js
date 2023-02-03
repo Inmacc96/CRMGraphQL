@@ -1,10 +1,11 @@
+import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
 import Customer from "../models/Customer.js";
 import Order from "../models/Order.js";
-import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken";
-import * as dotenv from "dotenv";
+
 dotenv.config({ path: ".env" });
 
 const createToken = (user, secret, expiresIn) => {
