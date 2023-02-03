@@ -13,7 +13,7 @@ import {
 import { useQuery } from "@apollo/client";
 import withAuth from "../HOC/withAuth";
 import Loading from "../components/Loading";
-import { BEST_SELLERS } from "../graphql/mutations";
+import { BEST_SELLERS } from "../graphql/queries";
 
 const BestSellers = () => {
   const { data, loading, startPolling, stopPolling } = useQuery(BEST_SELLERS);
