@@ -80,3 +80,28 @@ export const GET_ORDERS = gql`
     }
   }
 `;
+
+export const BEST_SELLERS = gql`
+  query getBestSellers {
+    getBestSellers {
+      total
+      seller {
+        name
+        email
+      }
+    }
+  }
+`;
+
+export const BEST_CUSTOMERS = gql`
+  query getBestCustomers {
+    getBestCustomers {
+      total
+      customer {
+        id
+        name
+        company
+      }
+    }
+  }
+`;
