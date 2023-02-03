@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import Swal from "sweetalert2";
 import { UPDATE_ORDER, DELETE_ORDER } from "../graphql/mutations";
+import { BEST_CUSTOMERS, BEST_SELLERS } from "../graphql/queries";
 
 const Order = ({ order }) => {
   const {
@@ -41,7 +42,9 @@ const Order = ({ order }) => {
             state: newState,
           },
         },
+        refetchQueries: [{ query: BEST_CUSTOMERS }, { query: BEST_SELLERS }],
       });
+
       setOrderState(data.updateOrder.state);
     } catch (err) {
       console.log(err);

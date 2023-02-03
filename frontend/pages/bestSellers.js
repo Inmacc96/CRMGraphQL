@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Layout from "../components/Layout";
 import {
   BarChart,
@@ -16,15 +15,7 @@ import Loading from "../components/Loading";
 import { BEST_SELLERS } from "../graphql/queries";
 
 const BestSellers = () => {
-  const { data, loading, startPolling, stopPolling } = useQuery(BEST_SELLERS);
-
-  useEffect(() => {
-    //Despues de un segundo, si los datos han cambiado, entonces hace la consulta
-    startPolling(1000);
-    return () => {
-      stopPolling();
-    };
-  }, [startPolling, stopPolling]);
+  const { data, loading } = useQuery(BEST_SELLERS);
 
   if (loading) return <Loading />;
 

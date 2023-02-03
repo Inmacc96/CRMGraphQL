@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Layout from "../components/Layout";
 import {
   BarChart,
@@ -16,14 +15,7 @@ import Loading from "../components/Loading";
 import { BEST_CUSTOMERS } from "../graphql/queries";
 
 const BestCustomers = () => {
-  const { data, loading, startPolling, stopPolling } = useQuery(BEST_CUSTOMERS);
-
-  useEffect(() => {
-    startPolling(1000);
-    return () => {
-      stopPolling();
-    };
-  }, [startPolling, stopPolling]);
+  const { data, loading } = useQuery(BEST_CUSTOMERS);
 
   if (loading) return <Loading />;
 
