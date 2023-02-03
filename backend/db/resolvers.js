@@ -1,10 +1,10 @@
-const User = require("../models/User");
-const Product = require("../models/Product");
-const Customer = require("../models/Customer");
-const Order = require("../models/Order");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: ".env" });
+import User from "../models/User.js";
+import Product from "../models/Product.js";
+import Customer from "../models/Customer.js";
+import Order from "../models/Order.js";
+import bcryptjs from "bcryptjs";
+import * as dotenv from "dotenv";
+dotenv.config({ path: ".env" });
 
 const createToken = (user, secret, expiresIn) => {
   const { id, email, name, surname } = user;
@@ -429,4 +429,4 @@ const resolvers = {
   },
 };
 
-module.exports = resolvers;
+export default resolvers;
