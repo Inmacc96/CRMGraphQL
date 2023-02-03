@@ -1,7 +1,8 @@
-import { ApolloServer } from "apollo-server";
-import typeDefs from "./db/schema";
-import resolvers from "./db/resolvers";
-import connectDB from "./config/db";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import typeDefs from "./db/schema.js";
+import resolvers from "./db/resolvers.js";
+import connectDB from "./config/db.js";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "env" });
@@ -13,6 +14,10 @@ connectDB();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+});
+
+// Arrancar el servidor
+const { url } = await startStandaloneServer(server, {
   context: ({ req }) => {
     // console.log(req.headers["authorization"]);
 
@@ -30,9 +35,7 @@ const server = new ApolloServer({
       }
     }
   },
+  listen: { port: 4000 },
 });
 
-// Arrancar el servidor
-server.listen().then(({ url }) => {
-  console.log(`Server ready at URL ${url}`);
-});
+console.log(`🚀  Server ready at ${url}`);

@@ -1,4 +1,4 @@
-import { gql } from "apollo-server";
+import gql from "graphql-tag";
 
 // Schema
 // Con gql indica que es código de graphQL
