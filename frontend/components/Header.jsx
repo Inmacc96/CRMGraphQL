@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useApolloClient } from "@apollo/client";
-import { useAuth } from "../hooks/useAuth";
+import { GET_USER } from "../graphql/queries";
 
 const Header = () => {
   // client Apollo
@@ -9,12 +9,9 @@ const Header = () => {
   // router
   const router = useRouter();
 
-  const { user, loading } = useAuth();
+  const { getUser } = client.readQuery({ query: GET_USER });
 
-  // Proteger que no accedamos a data antes de tener resultados
-  if (loading) return "Loading...";
-
-  const { name, surname } = user;
+  const { name, surname } = getUser;
 
   // Cerrar sesion
   const logOut = () => {
