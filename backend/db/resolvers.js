@@ -1,6 +1,7 @@
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
+import { GraphQLError } from "graphql";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
 import Customer from "../models/Customer.js";
@@ -33,7 +34,11 @@ const resolvers = {
       const product = await Product.findById(id);
 
       if (!product) {
-        throw new Error("Product not found");
+        throw new GraphQLError("Product not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       return product;
@@ -59,12 +64,23 @@ const resolvers = {
       const customer = await Customer.findById({ _id: id });
 
       if (!customer) {
-        throw new Error("Customer not found");
+        throw new GraphQLError("Customer not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Quien lo creó puede verlo
       if (user.id !== customer.seller.toString()) {
-        throw new Error("You do not have permission to get this customer");
+        throw new GraphQLError(
+          "You do not have permission to get this customer",
+          {
+            extensions: {
+              code: "FORBIDDEN",
+            },
+          }
+        );
       }
 
       return customer;
@@ -91,12 +107,20 @@ const resolvers = {
       // Comprobar que el pedido exista
       const order = await Order.findById(id);
       if (!order) {
-        throw new Error("Order not found");
+        throw new GraphQLError("Order not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Comprobar que el pedido es creado por el usuario autenticado
       if (order.seller.toString() !== user.id) {
-        throw new Error("You do not have permission to get this order");
+        throw new GraphQLError("You do not have permission to get this order", {
+          extensions: {
+            code: "FORBIDDEN",
+          },
+        });
       }
 
       return order;
@@ -182,7 +206,11 @@ const resolvers = {
       const existUser = await User.findOne({ email });
 
       if (existUser) {
-        throw new Error("Already registered user");
+        throw new GraphQLError("Already registered user", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Hashear su password
@@ -203,17 +231,18 @@ const resolvers = {
 
       // Comprobar que el usuario existe
       const existUser = await User.findOne({ email });
-      if (!existUser) {
-        throw new Error("User doesn't exist");
-      }
 
       // Comprobar que el password es correcto
       const isCorrectPassword = await bcryptjs.compare(
         password,
         existUser.password
       );
-      if (!isCorrectPassword) {
-        throw new Error("Password is incorrect");
+      if (!existUser || !isCorrectPassword) {
+        throw new GraphQLError("Wrong credentials", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Crear el token
@@ -237,7 +266,11 @@ const resolvers = {
       let product = await Product.findById(id);
 
       if (!product) {
-        throw new Error("Product not found");
+        throw new GraphQLError("Product not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Guardar el nuevo valor en la base de datos
@@ -253,7 +286,11 @@ const resolvers = {
       let product = await Product.findById(id);
 
       if (!product) {
-        throw new Error("Product not found");
+        throw new GraphQLError("Product not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Eliminar
@@ -266,7 +303,11 @@ const resolvers = {
       const existCustomer = await Customer.findOne({ email });
 
       if (existCustomer) {
-        throw new Error("Customer is already registered");
+        throw new GraphQLError("Customer is already registered", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       const newCustomer = new Customer(input);
@@ -286,11 +327,22 @@ const resolvers = {
       // Comprobar que el cliente existe
       let customer = await Customer.findById(id);
       if (!customer) {
-        throw new Error("Customer not found");
+        throw new GraphQLError("Customer not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
       // Comprobar que el vendedor es quien lo edita
       if (user.id !== customer.seller.toString()) {
-        throw new Error("You do not have permission to edit this customer");
+        throw new GraphQLError(
+          "You do not have permission to edit this customer",
+          {
+            extensions: {
+              code: "FORBIDDEN",
+            },
+          }
+        );
       }
 
       // Guardar el nuevo valor en la base de datos
@@ -303,12 +355,23 @@ const resolvers = {
       // Comprobar que el cliente existe
       let customer = await Customer.findById(id);
       if (!customer) {
-        throw new Error("Customer not found");
+        throw new GraphQLError("Customer not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Comprobar que el vendedor es quien lo borra
       if (user.id !== customer.seller.toString()) {
-        throw new Error("You do not have permission to delete this customer");
+        throw new GraphQLError(
+          "You do not have permission to delete this customer",
+          {
+            extensions: {
+              code: "FORBIDDEN",
+            },
+          }
+        );
       }
 
       // Borrar el cliente de la base de datos
@@ -321,12 +384,23 @@ const resolvers = {
       const customer = await Customer.findById(customerID);
 
       if (!customer) {
-        throw new Error("Customer not found");
+        throw new GraphQLError("Customer not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Verificar si el cliente es del vendedor
       if (customer.seller.toString() !== user.id) {
-        throw new Error("You do not have permission to create this order");
+        throw new GraphQLError(
+          "You do not have permission to create this order",
+          {
+            extensions: {
+              code: "FORBIDDEN",
+            },
+          }
+        );
       }
 
       // Comprobar que el stock esté disponible
@@ -336,8 +410,13 @@ const resolvers = {
         const product = await Product.findById(id);
 
         if (item.quantity > product.stock) {
-          throw new Error(
-            `The ${product.name} item exceeds the quantity available`
+          throw new GraphQLError(
+            `The ${product.name} item exceeds the quantity available`,
+            {
+              extensions: {
+                code: "BAD_USER_INPUT",
+              },
+            }
           );
         } else {
           // Restar la cantidad a lo disponible
@@ -362,13 +441,21 @@ const resolvers = {
       // Si el pedido existe
       const existOrder = await Order.findById(id);
       if (!existOrder) {
-        throw new Error("Order not found");
+        throw new GraphQLError("Order not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       //Si el cliente existe
       const customer = await Customer.findById(customerID);
       if (!customer) {
-        throw new Error("Customer not found");
+        throw new GraphQLError("Customer not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Si el cliente y el pedido pertenece al vendedor
@@ -376,7 +463,14 @@ const resolvers = {
         existOrder.seller.toString() !== user.id ||
         customer.seller.toString() !== user.id
       ) {
-        throw new Error("You do not have permission to edit this order");
+        throw new GraphQLError(
+          "You do not have permission to edit this order",
+          {
+            extensions: {
+              code: "FORBIDDEN",
+            },
+          }
+        );
       }
 
       // Revisar el stock
@@ -386,8 +480,13 @@ const resolvers = {
           const product = await Product.findById(id);
 
           if (item.quantity > product.stock) {
-            throw new Error(
-              `The ${product.name} item exceeds the quantity available`
+            throw new GraphQLError(
+              `The ${product.name} item exceeds the quantity available`,
+              {
+                extensions: {
+                  code: "BAD_USER_INPUT",
+                },
+              }
             );
           } else {
             // Restar la cantidad a lo disponible
@@ -404,12 +503,23 @@ const resolvers = {
       // Comprobar que el pedido existe
       const order = await Order.findById(id);
       if (!order) {
-        throw new Error("Order not found");
+        throw new GraphQLError("Order not found", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
 
       // Comprobar que el vendedor es quien lo borra
       if (user.id !== order.seller.toString()) {
-        throw new Error("You do not have permission to delete this order");
+        throw new GraphQLError(
+          "You do not have permission to delete this order",
+          {
+            extensions: {
+              code: "FORBIDDEN",
+            },
+          }
+        );
       }
 
       // Actualizar el stock de los productos
