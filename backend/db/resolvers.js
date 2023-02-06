@@ -19,6 +19,15 @@ const createToken = (user, secret, expiresIn) => {
 const resolvers = {
   Query: {
     getUser: async (_, {}, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       return user;
     },
     getProducts: async () => {
@@ -52,6 +61,15 @@ const resolvers = {
       }
     },
     getCustomersSeller: async (_, {}, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       try {
         const customers = await Customer.find({ seller: user.id.toString() });
         return customers;
@@ -60,6 +78,15 @@ const resolvers = {
       }
     },
     getCustomer: async (_, { id }, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       // Comprobar que existe el cliente
       const customer = await Customer.findById({ _id: id });
 
@@ -94,6 +121,15 @@ const resolvers = {
       }
     },
     getOrdersSeller: async (_, {}, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       try {
         const orders = await Order.find({ seller: user.id }).populate(
           "customer"
@@ -104,6 +140,15 @@ const resolvers = {
       }
     },
     getOrder: async (_, { id }, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       // Comprobar que el pedido exista
       const order = await Order.findById(id);
       if (!order) {
@@ -126,6 +171,15 @@ const resolvers = {
       return order;
     },
     getOrderState: async (_, { state }, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       try {
         const orders = await Order.find({ state, seller: user.id });
         return orders;
@@ -298,6 +352,15 @@ const resolvers = {
       return deletedProduct;
     },
     newCustomer: async (_, { input }, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       const { email } = input;
       // Verificar si el cliente ya está registrado
       const existCustomer = await Customer.findOne({ email });
@@ -324,6 +387,15 @@ const resolvers = {
       }
     },
     updateCustomer: async (_, { id, input }, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       // Comprobar que el cliente existe
       let customer = await Customer.findById(id);
       if (!customer) {
@@ -352,6 +424,15 @@ const resolvers = {
       return customer;
     },
     deleteCustomer: async (_, { id }, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       // Comprobar que el cliente existe
       let customer = await Customer.findById(id);
       if (!customer) {
@@ -379,6 +460,15 @@ const resolvers = {
       return deletedCustomer;
     },
     newOrder: async (_, { input }, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       const { customer: customerID, order } = input;
       // Verificar si el cliente existe
       const customer = await Customer.findById(customerID);
@@ -437,6 +527,15 @@ const resolvers = {
       return await newSavedOrder.populate("customer");
     },
     updateOrder: async (_, { id, input }, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       const { customer: customerID, order } = input;
       // Si el pedido existe
       const existOrder = await Order.findById(id);
@@ -500,6 +599,15 @@ const resolvers = {
       return await Order.findByIdAndUpdate({ _id: id }, input, { new: true });
     },
     deleteOrder: async (_, { id }, { user }) => {
+      // Comprobar que el usuario está autenticado
+      if (!user) {
+        throw new GraphQLError("not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
       // Comprobar que el pedido existe
       const order = await Order.findById(id);
       if (!order) {
