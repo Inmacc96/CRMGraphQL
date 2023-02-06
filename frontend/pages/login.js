@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
 import { AUTH_USER } from "../graphql/mutations";
+import AuthContext from "../context/auth/AuthContext";
 import Layout from "../components/Layout";
 
 const Login = () => {
+  // Context auth
+
+  const { refetchGetUser } = useContext(AuthContext);
+
   // State para el mensaje
   const [msg, setMsg] = useState(null);
 
@@ -42,9 +47,10 @@ const Login = () => {
         const { token } = data.authUser;
         localStorage.setItem("token", token);
 
-        // Setear msg y redireccionar hacia cliente
+        // Setear msg y redireccionar hacia cliente, hacer refetch de getUser
         setTimeout(() => {
           setMsg(null);
+          refetchGetUser();
           router.push("/");
         }, 2000);
       } catch (err) {

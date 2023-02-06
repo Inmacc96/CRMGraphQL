@@ -5,7 +5,6 @@ import { useMutation } from "@apollo/client";
 import { NEW_PRODUCT } from "../graphql/mutations";
 import { GET_PRODUCTS } from "../graphql/queries";
 import Swal from "sweetalert2";
-import withAuth from "../HOC/withAuth";
 import Layout from "../components/Layout";
 
 const NewProduct = () => {
@@ -168,4 +167,4 @@ const NewProduct = () => {
   );
 };
 
-export default withAuth(NewProduct);
+export default NewProduct;

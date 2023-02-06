@@ -4,7 +4,6 @@ import { useMutation } from "@apollo/client";
 import { NEW_ORDER } from "../graphql/mutations";
 import { GET_ORDERS } from "../graphql/queries";
 import Swal from "sweetalert2";
-import withAuth from "../HOC/withAuth";
 import Layout from "../components/Layout";
 import AssignCustomer from "../components/orders/AssignCustomer";
 import AssignProducts from "../components/orders/AssignProducts";
@@ -110,4 +109,4 @@ const NewOrder = () => {
   );
 };
 
-export default withAuth(NewOrder);
+export default NewOrder;

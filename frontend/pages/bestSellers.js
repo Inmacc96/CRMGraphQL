@@ -10,7 +10,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import withAuth from "../HOC/withAuth";
 import Loading from "../components/Loading";
 import Layout from "../components/Layout";
 
@@ -60,4 +59,4 @@ const BestSellers = () => {
   );
 };
 
-export default withAuth(BestSellers);
+export default BestSellers;

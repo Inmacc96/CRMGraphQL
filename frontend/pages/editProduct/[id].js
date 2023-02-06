@@ -5,7 +5,6 @@ import { UPDATE_PRODUCT } from "../../graphql/mutations";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
-import withAuth from "../../HOC/withAuth";
 import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
 
@@ -178,4 +177,4 @@ const EditProduct = () => {
   );
 };
 
-export default withAuth(EditProduct);
+export default EditProduct;

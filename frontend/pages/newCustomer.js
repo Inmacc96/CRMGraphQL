@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
 import { NEW_CUSTOMER } from "../graphql/mutations";
 import { GET_CUSTOMERS_USER } from "../graphql/queries";
-import withAuth from "../HOC/withAuth";
 import Layout from "../components/Layout";
 
 const NewCustomer = () => {
@@ -216,4 +215,4 @@ const NewCustomer = () => {
   );
 };
 
-export default withAuth(NewCustomer);
+export default NewCustomer;

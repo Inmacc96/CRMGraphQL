@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
 import { GET_ORDERS } from "../graphql/queries";
-import withAuth from "../HOC/withAuth";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
 import Order from "../components/Order";
@@ -33,4 +32,4 @@ const Orders = () => {
   );
 };
 
-export default withAuth(Orders);
+export default Orders;

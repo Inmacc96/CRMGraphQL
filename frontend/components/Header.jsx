@@ -1,17 +1,28 @@
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useApolloClient } from "@apollo/client";
-import { GET_USER } from "../graphql/queries";
+import AuthContext from "../context/auth/AuthContext";
 
 const Header = () => {
+  // States name y surname
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+
   // client Apollo
   const client = useApolloClient();
 
   // router
   const router = useRouter();
 
-  const { getUser } = client.readQuery({ query: GET_USER });
+  // AuthContext
+  const { user } = useContext(AuthContext);
 
-  const { name, surname } = getUser;
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setSurname(user.surname);
+    }
+  }, [user]);
 
   // Cerrar sesion
   const logOut = () => {
@@ -23,7 +34,7 @@ const Header = () => {
   return (
     <header className="sm:flex sm:justify-between mb-6">
       <p className="mt-2 mb-5 lg:mb-0">
-        Hola: {name} {surname}
+        Hello: {name} {surname}
       </p>
       <button
         type="button"

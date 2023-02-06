@@ -5,7 +5,6 @@ import { UPDATE_CUSTOMER } from "../../graphql/mutations";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
-import withAuth from "../../HOC/withAuth";
 import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
 
@@ -214,4 +213,4 @@ const EditCustomer = () => {
   );
 };
 
-export default withAuth(EditCustomer);
+export default EditCustomer;

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
 import { GET_PRODUCTS } from "../graphql/queries";
-import withAuth from "../HOC/withAuth";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
 import Product from "../components/Product";
@@ -46,4 +45,4 @@ const Products = () => {
   );
 };
 
-export default withAuth(Products);
+export default Products;
