@@ -6,7 +6,7 @@ import typeDefs from "./db/schema.js";
 import resolvers from "./db/resolvers.js";
 import connectDB from "./config/db.js";
 
-dotenv.config({ path: "env" });
+dotenv.config({ path: ".env" });
 
 // Conectar a la base de datos
 connectDB();
