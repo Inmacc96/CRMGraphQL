@@ -3,8 +3,6 @@ import { setContext } from "apollo-link-context";
 
 const uri = process.env.NEXT_PUBLIC_BACKEND_URI;
 
-console.log(process.env.NEXT_PUBLIC_BACKEND_URI);
-
 if (!uri) {
   throw new Error("BACKEND_URI is not defined in the environment variables");
 }
