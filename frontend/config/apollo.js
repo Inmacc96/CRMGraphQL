@@ -3,8 +3,10 @@ import { setContext } from "apollo-link-context";
 
 const uri = process.env.NEXT_PUBLIC_BACKEND_URI;
 
+console.log(process.env.NEXT_PUBLIC_BACKEND_URI);
+
 if (!uri) {
-  throw new Error("GRAPHQL_URI is not defined in the environment variables.");
+  throw new Error("BACKEND_URI is not defined in the environment variables");
 }
 
 // Contiene la configuracion de hacia donde nos vamos a conectar para obtener los datos
