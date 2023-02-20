@@ -14,19 +14,21 @@ const AuthState = ({ children }) => {
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  const { refetch } = useQuery(GET_USER_QUERY, {
+  const { refetch, loading, error } = useQuery(GET_USER_QUERY, {
     onCompleted: (data) => {
       dispatch({ type: GET_USER, payload: data.getUser });
-    },
-    onError: () => {
-      if (Router.pathname !== "/signup") {
-        Router.push("/login");
-      }
     },
   });
 
   return (
-    <AuthContext.Provider value={{ user: state.user, refetchGetUser: refetch }}>
+    <AuthContext.Provider
+      value={{
+        user: state.user,
+        refetchGetUser: refetch,
+        isLoadingUser: loading,
+        errorUser: error,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

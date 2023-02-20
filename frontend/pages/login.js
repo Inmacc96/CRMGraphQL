@@ -47,10 +47,12 @@ const Login = () => {
         const { token } = data.authUser;
         localStorage.setItem("token", token);
 
-        // Setear msg y redireccionar hacia cliente, hacer refetch de getUser
+        // Refetch de getUser
+        refetchGetUser();
+
+        // Setear msg y redireccionar hacia cliente
         setTimeout(() => {
           setMsg(null);
-          refetchGetUser();
           router.push("/");
         }, 2000);
       } catch (err) {

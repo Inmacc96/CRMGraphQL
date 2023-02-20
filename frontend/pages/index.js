@@ -4,12 +4,18 @@ import { GET_CUSTOMERS_USER } from "../graphql/queries";
 import Customer from "../components/Customer";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
+import withAuth from "../HOC/withAuth";
 
 const Home = () => {
   //Consulta de Apollo
   const { data, loading } = useQuery(GET_CUSTOMERS_USER);
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    );
 
   return (
     <Layout>
@@ -44,4 +50,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withAuth(Home);
