@@ -10,6 +10,7 @@ import AssignProducts from "../components/orders/AssignProducts";
 import OrderSummary from "../components/orders/OrderSummary";
 import TotalPayable from "../components/orders/TotalPayable";
 import OrderContext from "../context/orders/OrderContext";
+import withAuth from "../HOC/withAuth";
 
 const NewOrder = () => {
   // router
@@ -109,4 +110,4 @@ const NewOrder = () => {
   );
 };
 
-export default NewOrder;
+export default withAuth(NewOrder);

@@ -6,6 +6,7 @@ import { NEW_PRODUCT } from "../graphql/mutations";
 import { GET_PRODUCTS } from "../graphql/queries";
 import Swal from "sweetalert2";
 import Layout from "../components/Layout";
+import withAuth from "../HOC/withAuth";
 
 const NewProduct = () => {
   // Router
@@ -167,4 +168,4 @@ const NewProduct = () => {
   );
 };
 
-export default NewProduct;
+export default withAuth(NewProduct);

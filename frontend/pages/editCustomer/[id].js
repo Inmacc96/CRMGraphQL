@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import Swal from "sweetalert2";
 import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
+import withAuth from "../../HOC/withAuth";
 
 const EditCustomer = () => {
   // Obtener el ID actual
@@ -35,7 +36,12 @@ const EditCustomer = () => {
       .required("The customer's email is required"),
   });
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    );
 
   const { getCustomer } = data;
 
@@ -213,4 +219,4 @@ const EditCustomer = () => {
   );
 };
 
-export default EditCustomer;
+export default withAuth(EditCustomer);

@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import Swal from "sweetalert2";
 import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
+import withAuth from "../../HOC/withAuth";
 
 const EditProduct = () => {
   // Obtener el id
@@ -37,7 +38,12 @@ const EditProduct = () => {
       .positive("Negative numbers are not accepted"),
   });
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    );
 
   if (!data) return <p>Action not allowed</p>;
 
@@ -177,4 +183,4 @@ const EditProduct = () => {
   );
 };
 
-export default EditProduct;
+export default withAuth(EditProduct);

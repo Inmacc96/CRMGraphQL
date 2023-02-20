@@ -12,11 +12,17 @@ import {
 } from "recharts";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
+import withAuth from "../HOC/withAuth";
 
 const BestCustomers = () => {
   const { data, loading } = useQuery(BEST_CUSTOMERS);
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    );
 
   const { getBestCustomers } = data;
 
@@ -58,4 +64,4 @@ const BestCustomers = () => {
   );
 };
 
-export default BestCustomers;
+export default withAuth(BestCustomers);

@@ -4,11 +4,17 @@ import { GET_ORDERS } from "../graphql/queries";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
 import Order from "../components/Order";
+import withAuth from "../HOC/withAuth";
 
 const Orders = () => {
   const { data, loading } = useQuery(GET_ORDERS);
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    );
 
   const { getOrdersSeller } = data;
 
@@ -32,4 +38,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default withAuth(Orders);

@@ -4,12 +4,18 @@ import { GET_PRODUCTS } from "../graphql/queries";
 import Layout from "../components/Layout";
 import Loading from "../components/Loading";
 import Product from "../components/Product";
+import withAuth from "../HOC/withAuth";
 
 const Products = () => {
   // Obtener los productos
-  const { data, loading, error } = useQuery(GET_PRODUCTS);
+  const { data, loading } = useQuery(GET_PRODUCTS);
 
-  if (loading) return <Loading />;
+  if (loading)
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    );
 
   return (
     <Layout>
@@ -45,4 +51,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default withAuth(Products);
