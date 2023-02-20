@@ -1,5 +1,4 @@
 import { useReducer } from "react";
-import Router from "next/router";
 import { useQuery } from "@apollo/client";
 import { GET_USER as GET_USER_QUERY } from "../../graphql/queries";
 import AuthContext from "./AuthContext";
@@ -15,6 +14,9 @@ const AuthState = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   const { refetch, loading, error } = useQuery(GET_USER_QUERY, {
+    skip:
+      typeof window !== "undefined" &&
+      ["/signup", "/login"].includes(window.location.pathname),
     onCompleted: (data) => {
       dispatch({ type: GET_USER, payload: data.getUser });
     },
