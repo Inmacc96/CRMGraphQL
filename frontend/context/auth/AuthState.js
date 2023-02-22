@@ -27,7 +27,7 @@ const AuthState = ({ children }) => {
       value={{
         user: state.user,
         refetchGetUser: refetch,
-        isLoadingUser: loading,
+        isLoadingUser: true,
         errorUser: error,
       }}
     >
